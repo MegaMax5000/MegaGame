@@ -5,7 +5,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using System;
 
-namespace MaxLearns
+namespace MegaGame
 {
     public class Launcher : MonoBehaviourPunCallbacks
     {

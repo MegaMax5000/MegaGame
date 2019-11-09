@@ -5,7 +5,7 @@ using System.Collections;
 using Photon.Pun;
 using Photon.Pun.Demo.PunBasics;
 
-namespace MaxLearns
+namespace MegaGame
 {
     /// <summary>
     /// Player manager.

@@ -1,5 +1,33 @@
+# =============== #
+# Unity generated #
+# =============== #
+Temp/
+Library/
 
-MegaGame/Temp/UnityLockfile
-MegaGame/Temp/ProcessJobs/ab30c7bcae888f8a20ac9ec5bfbfa3a6.bakert
-MegaGame/Library/shadercompiler-UnityShaderCompiler.exe0.log
-MegaGame/Library/EditorInstance.json
+# ===================================== #
+# Visual Studio / MonoDevelop generated #
+# ===================================== #
+ExportedObj/
+obj/
+*.svd
+*.userprefs
+/*.csproj
+*.pidb
+*.suo
+/*.sln
+*.user
+*.unityproj
+*.booproj
+.vs/
+MegaGame/Assembly-CSharp.csproj
+
+# ============ #
+# OS generated #
+# ============ #
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
