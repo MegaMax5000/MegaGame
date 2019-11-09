@@ -4,5 +4,20 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/MaxMultiplayerDemo/Scenes/Launcher.unity
+    guid: 79e000f40420e0546805d7e8fb272114
+  - enabled: 1
+    path: Assets/MaxMultiplayerDemo/Scenes/Room for 1.unity
+    guid: 5beaef24adf63b349a47cfb912f3f13f
+  - enabled: 1
+    path: Assets/MaxMultiplayerDemo/Scenes/Room for 2.unity
+    guid: 8f95cc3fd9028674d8cf55c972f0256d
+  - enabled: 1
+    path: Assets/MaxMultiplayerDemo/Scenes/Room for 3.unity
+    guid: 9ea551b664a95d0458bc2f07b8b31922
+  - enabled: 1
+    path: Assets/MaxMultiplayerDemo/Scenes/Room for 4.unity
+    guid: b096f8bfd9d624749870a7df134789e0
   m_configObjects: {}
