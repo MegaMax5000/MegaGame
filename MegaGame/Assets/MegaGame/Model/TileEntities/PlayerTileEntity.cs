@@ -21,6 +21,12 @@ namespace MegaGame
             cooldownTimer = Cooldown_time;
         }
 
+        public void DoLurch(EntityInfo info)
+        {
+            GameManager.Instance.MyGameBoard.Move(this, Direction.LEFT, info);
+            GameManager.Instance.MyGameBoard.Move(this, Direction.LEFT, info);
+            cooldownTimer = Cooldown_time;
+        }
         public override void DoTick()
         {
             // Do nothing
@@ -48,6 +54,10 @@ namespace MegaGame
                 else if (Input.GetKeyDown(KeyCode.S))
                 {
                     DoMove(Direction.DOWN, entityInfo);
+                }
+                else if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    DoLurch(entityInfo);
                 }
             }
             else
