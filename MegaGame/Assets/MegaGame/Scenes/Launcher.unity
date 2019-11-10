@@ -239,7 +239,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 1.904e-42, y: 1.02e-43, z: 7.57e-43, w: 0}
+  m_BoundingSphereOverride: {x: 0.125, y: 0.08203125, z: 0.03125, w: -0.0390625}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -636,7 +636,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 202200852}
         m_MethodName: Connect
         m_Mode: 1
         m_Arguments:
