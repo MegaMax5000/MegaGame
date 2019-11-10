@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63404267778183f49b2b0201b7b8cb70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uid: 
   maxHealth: 0
   Cooldown_time: 0.05
 --- !u!114 &-8575136372380305891

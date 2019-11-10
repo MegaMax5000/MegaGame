@@ -60,7 +60,8 @@ namespace MegaGame
                     }
 
                     //find and set up player 1
-                    GameObject player1GO = GameObject.Find("Player1");
+                    GameObject player1GO = GameObject.Find("Player(Clone)");
+                    player1GO.name = "Player1";
                     PlayerTileEntity pte = player1GO.GetComponent<PlayerTileEntity>();
                     pte.setUid("PLAYER_1");
                     if (pte != null)
