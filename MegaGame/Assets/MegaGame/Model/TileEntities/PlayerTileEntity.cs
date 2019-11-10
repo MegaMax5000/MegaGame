@@ -38,7 +38,7 @@ namespace MegaGame
         void Update()
         {
             EntityInfo entityInfo = new EntityInfo(this.getUid());
-            if (cooldownTimer <= 0)
+            if (cooldownTimer <= 0 && PhotonNetwork.IsMasterClient)
             {
                 if (Input.GetKeyDown(KeyCode.W))
                 {
