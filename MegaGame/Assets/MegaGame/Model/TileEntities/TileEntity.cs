@@ -8,7 +8,7 @@ namespace MegaGame
     {
 
         protected GameBoard gameBoard;
-        private string uid;
+        protected string uid;
 
         [SerializeField]
         protected float maxHealth = 0.0f;
