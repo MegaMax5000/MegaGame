@@ -19,7 +19,7 @@ namespace MegaGame
 
         public GameBoard gameBoard;
 
-        private Vector3 entityOffset = new Vector3(0, 2, 0);
+        private Vector3 entityOffset = new Vector3(0, 3.5f, 0);
 
         public Tile(GameBoard gb, SIDE side)
         {
