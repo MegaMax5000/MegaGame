@@ -238,17 +238,6 @@ namespace MegaGame
                         tile.RemoveTileEntity(uid);
                     }
                 }
-                else
-                {
-                    PlayerTileEntity[] players = GameObject.FindObjectsOfType<PlayerTileEntity>();
-                    foreach (var p in players)
-                    {
-                        if (p.getUid() == uid)
-                        {
-                            AddEntityToTile(i.position.x, i.position.y, p);
-                        }
-                    }
-                }
             }
         }
     }
