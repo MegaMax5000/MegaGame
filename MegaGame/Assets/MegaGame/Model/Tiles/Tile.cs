@@ -58,6 +58,15 @@ namespace MegaGame
             tileEntities.Add(te);
         }
 
+        public void AddTileEntity(string uid)
+        {
+            foreach (var te in tileEntities)
+            {
+                if (te.getUid() == uid) tileEntities.Add(te);
+            }
+
+        }
+
         public void SetSide(SIDE side)
         {
             this.side = side;
