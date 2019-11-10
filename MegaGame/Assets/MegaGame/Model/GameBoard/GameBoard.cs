@@ -8,16 +8,31 @@ namespace MegaGame
     {
         public static int HEIGHT = 3;
         public static int WIDTH = 6;
-        
         private Dictionary<TileEntity, Vector2Int> positionDict = new Dictionary<TileEntity, Vector2Int>();
+        [SerializeField]
         private Tile[,] boardArray = new Tile[HEIGHT, WIDTH];
+
+        public List<GameObject> initTileList;
         // Start is called before the first frame update
         void Start()
         {
-
+            for (int row = 0; row < HEIGHT; ++row)
+            {
+                for (int col = 0; col < WIDTH; ++col)
+                {
+                    int indx = row * HEIGHT + col;
+                    
+                    if (col < 3)
+                    {
+                        Tile.SIDE side = Tile.SIDE.LEFT;
+                        Tile tile = new NeutralTile(this, side);
+                        SetTileValue(row, col, tile);
+                    }
+                }
+            }
         }
         
-        public void SetCellValue(int row, int column, Tile value)
+        public void SetTileValue(int row, int column, Tile value)
         {
             boardArray[row, column] = value;
             Vector2Int position = new Vector2Int(row, column);
@@ -28,13 +43,23 @@ namespace MegaGame
             }
         }
 
+        public void AddEntityToTile(int row, int column, TileEntity tileEntity)
+        {
+            if (row > HEIGHT || column > WIDTH || row < 0 || column < 0)
+            {
+                Debug.Log("[GameBoard] Cannot add entity to tile: (" + row + "," + column + ")");
+                return;
+            }
+            boardArray[row, column].AddEntity(tileEntity);
+        }
+
         public Tile GetTile(int row, int col)
         {
             return boardArray[row, col];
         }
 
 
-        public void Move(TileEntity tileEntity, MoveableTileEntity.Direction direction, int distance)
+        public void Move(TileEntity tileEntity, MoveableTileEntity.Direction direction)
         {
             Vector2Int position;
             if (positionDict.TryGetValue(tileEntity, out position))

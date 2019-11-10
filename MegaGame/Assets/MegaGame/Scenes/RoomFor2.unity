@@ -1983,6 +1983,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1870003668}
+  - component: {fileID: 1870003669}
   m_Layer: 0
   m_Name: Gameboard
   m_TagString: Untagged
@@ -2024,6 +2025,37 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1870003669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1870003667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b663e8a7513246942a6e432495254ee3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initTileList:
+  - {fileID: 288309910}
+  - {fileID: 1728828132}
+  - {fileID: 642860792}
+  - {fileID: 2018292375}
+  - {fileID: 194434641}
+  - {fileID: 86461689}
+  - {fileID: 1751965450}
+  - {fileID: 659024465}
+  - {fileID: 1031865467}
+  - {fileID: 1452202725}
+  - {fileID: 2120282617}
+  - {fileID: 879994258}
+  - {fileID: 111059396}
+  - {fileID: 818667928}
+  - {fileID: 1338984107}
+  - {fileID: 1357053803}
+  - {fileID: 1553338410}
+  - {fileID: 1424342924}
 --- !u!1 &2018292375
 GameObject:
   m_ObjectHideFlags: 0

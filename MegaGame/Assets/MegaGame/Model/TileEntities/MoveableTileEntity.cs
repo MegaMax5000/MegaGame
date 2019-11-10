@@ -31,7 +31,7 @@ namespace MegaGame
 
         }
 
-        public abstract void DoMove(Direction direction, int distance);
+        public abstract void DoMove(Direction direction);
 
     }
 }

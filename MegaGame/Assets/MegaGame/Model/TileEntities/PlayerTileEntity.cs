@@ -14,14 +14,9 @@ namespace MegaGame
 
         }
 
-        public override void DoMove(Direction direction, int distance)
+        public override void DoMove(Direction direction)
         {
-            gameBoard.Move(this, direction, 1);
-        }
-
-        public void DoMove(Direction direction)
-        {
-            gameBoard.Move(this, direction, 1);
+            gameBoard.Move(this, direction);
         }
 
         public override void DoTick()
