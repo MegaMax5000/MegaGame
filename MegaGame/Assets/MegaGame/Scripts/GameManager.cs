@@ -88,34 +88,15 @@ namespace MegaGame
 
         public override void OnPlayerLeftRoom(Player other)
         {
-            Debug.LogFormat("OnPlayerLeftRoom() {0}", other.NickName); // seen when other disconnects
+            Debug.LogFormat("Player {0} left the room and ruined it for everyone else.", other.NickName); // seen when other disconnects
 
-            PlayerTileEntity[] players = GameObject.FindObjectsOfType<PlayerTileEntity>();
-            foreach (var p in players)
-            {
-                if (p != localPlayer) //hardcoded to 2 players :/
-                {
-                    PhotonNetwork.Destroy(p.gameObject);
-                }
-            }
+            PhotonNetwork.LeaveRoom();
+            PhotonNetwork.Destroy(localPlayer.gameObject);
         }
 
         public void LeaveRoom()
         {
             PhotonNetwork.LeaveRoom();
-
-            //if you are master client and leave, kick out all other players
-            PlayerTileEntity[] players = GameObject.FindObjectsOfType<PlayerTileEntity>();
-            if (PhotonNetwork.IsMasterClient)
-            {
-                foreach (var p in players)
-                {
-                    if (p != localPlayer) 
-                    {
-                        PhotonNetwork.Destroy(p.gameObject);
-                    }
-                }
-            }
             PhotonNetwork.Destroy(localPlayer.gameObject);
         }
 
