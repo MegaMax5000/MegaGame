@@ -100,8 +100,11 @@ namespace MegaGame
         {
             foreach (TileEntity te in tileEntities)
             {
-                te.transform.position = this.transform.position + entityOffset;
-                te.DoTick();
+                if (te != null)
+                {
+                    te.transform.position = this.transform.position + entityOffset;
+                    te.DoTick();
+                }
             }
         }
     }

@@ -78,12 +78,21 @@ namespace MegaGame
         {
             Debug.LogFormat("OnPlayerEnteredRoom() {0}", other.NickName); // not seen if you're the player connecting
 
+            PlayerTileEntity[] players = GameObject.FindObjectsOfType<PlayerTileEntity>();
+            foreach (var p in players)
+            {
+                if (p != localPlayer) //hardcoded to 2 players :/
+                {
+                    p.setUid("PLAYER_2");
+                    this.MyGameBoard.AddEntityToTile(1, 4, p);
+                }
+            }
+
             if (!PhotonNetwork.IsMasterClient)
             {
                 Debug.LogFormat("OnPlayerEnteredRoom() {0}", PhotonNetwork.IsMasterClient); // called before OnPlayerLeftRoom
 
                 LoadArena();
-
             }
         }
 
