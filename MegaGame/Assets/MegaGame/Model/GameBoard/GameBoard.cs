@@ -113,32 +113,32 @@ namespace MegaGame
             if (positionDict.TryGetValue(tileEntity.getUid(), out position))
             {
                 Tile curTile = boardArray[position.x, position.y];
-
+                Tile.SIDE side = curTile.GetSide();
                 switch (direction)
                 {
                     case MoveableTileEntity.Direction.DOWN:
-                        if (position.x < HEIGHT - 1)
+                        if (position.x < HEIGHT - 1 && GetTile(position.x, position.y).GetSide().Equals(side))
                         {
                             ++position.x;
                         }
                         break;
 
                     case MoveableTileEntity.Direction.UP:
-                        if (position.x > 0)
+                        if (position.x > 0 && GetTile(position.x - 1, position.y).GetSide().Equals(side))
                         {
                             --position.x;
                         }
                         break;
 
                     case MoveableTileEntity.Direction.LEFT:
-                        if (position.y > 0)
+                        if (position.y > 0 && GetTile(position.x, position.y - 1).GetSide().Equals(side))
                         {
                             --position.y;
                         }
                         break;
 
                     case MoveableTileEntity.Direction.RIGHT:
-                        if (position.y < WIDTH - 1)
+                        if (position.y < WIDTH - 1 && GetTile(position.x, position.y + 1).GetSide().Equals(side))
                         {
                             ++position.y;
                         }
