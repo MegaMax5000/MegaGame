@@ -78,6 +78,10 @@ namespace MegaGame
                     stream.SendNext(giString);
                     gi = new GameInfo();
                 }
+                else
+                {
+                    stream.SendNext("");
+                }
             }
             else
             {
@@ -85,8 +89,11 @@ namespace MegaGame
                 setUid((string)stream.ReceiveNext());
 
                 string r = (string)stream.ReceiveNext();
-                GameInfo gi = GameInfo.fromString(r);
-                GameManager.Instance.MyGameBoard.ProcessNewGameInfo(gi);
+                if (r != "")
+                {
+                    GameInfo gi = GameInfo.fromString(r);
+                    GameManager.Instance.MyGameBoard.ProcessNewGameInfo(gi);
+                }
             }
         }
     }
