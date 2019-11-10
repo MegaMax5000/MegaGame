@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace MegaGame
 {
-    public class PlayerTileEntity : MoveableTileEntity
+    public class PlayerTileEntity : MoveableTileEntity, IPunObservable
     {
         public float Cooldown_time = 0.1f;
 
@@ -61,6 +61,11 @@ namespace MegaGame
             {
                 cooldownTimer -= Time.deltaTime;
             }
+        }
+
+        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        {
+            //throw new System.NotImplementedException();
         }
     }
 }

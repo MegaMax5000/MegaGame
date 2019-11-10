@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3611122040260446486}
   - component: {fileID: 2803828289640237872}
-  - component: {fileID: 4798883954193187643}
+  - component: {fileID: -8575136372380305891}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -47,7 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 0
   Cooldown_time: 0.05
---- !u!114 &4798883954193187643
+--- !u!114 &-8575136372380305891
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -65,7 +65,7 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   ObservedComponents:
-  - {fileID: 0}
+  - {fileID: 2803828289640237872}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
