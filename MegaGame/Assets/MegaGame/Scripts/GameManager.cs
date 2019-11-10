@@ -42,7 +42,7 @@ namespace MegaGame
                     player1GO.name = "Player1";
                     PlayerTileEntity pte = player1GO.GetComponent<PlayerTileEntity>();
                     localPlayer = pte;
-                    pte.setUid("PLAYER_1");
+                    pte.setUid(Guid.NewGuid().ToString()); //random int guid
                     if (pte != null)
                     {
                         this.MyGameBoard.AddEntityToTile(1, 1, pte);
@@ -57,7 +57,7 @@ namespace MegaGame
                     player2GO.name = "Player2";
                     PlayerTileEntity pte = player2GO.GetComponent<PlayerTileEntity>();
                     localPlayer = pte;
-                    pte.setUid("PLAYER_2");
+                    pte.setUid(Guid.NewGuid().ToString()); //random int guid
                     if (pte != null)
                     {
                         this.MyGameBoard.AddEntityToTile(1, 4, pte);
@@ -103,6 +103,19 @@ namespace MegaGame
         public void LeaveRoom()
         {
             PhotonNetwork.LeaveRoom();
+
+            //if you are master client and leave, kick out all other players
+            PlayerTileEntity[] players = GameObject.FindObjectsOfType<PlayerTileEntity>();
+            if (PhotonNetwork.IsMasterClient)
+            {
+                foreach (var p in players)
+                {
+                    if (p != localPlayer) 
+                    {
+                        PhotonNetwork.Destroy(p.gameObject);
+                    }
+                }
+            }
             PhotonNetwork.Destroy(localPlayer.gameObject);
         }
 

@@ -12,14 +12,7 @@ namespace MegaGame
         //never getting called right now
         public PlayerTileEntity(GameBoard gb, string name, float maxHealth, bool isPlayer1) : base(gb, name, maxHealth)
         {
-            if (isPlayer1)
-            {
-                this.uid = "PLAYER_1";
-            }
-            else
-            {
-                this.uid = "PLAYER_2";
-            }
+            
         }
 
         public override void DoMove(Direction direction, EntityInfo info)
