@@ -19,7 +19,7 @@ namespace MegaGame
 
         public GameBoard gameBoard;
 
-        private Vector3 entityOffset;
+        protected Vector3 entityOffset = new Vector3(0, 3.5f, 0);
 
         public Tile(GameBoard gb, SIDE side)
         {
@@ -30,7 +30,7 @@ namespace MegaGame
         // Start is called before the first frame update
         void Start()
         {
-            entityOffset = new Vector3(0, 3.5f, 0);
+            
         }
 
         public SIDE GetSide()

@@ -103,6 +103,19 @@ namespace MegaGame
         public void LeaveRoom()
         {
             PhotonNetwork.LeaveRoom();
+
+            //if you are master client and leave, kick out all other players
+            PlayerTileEntity[] players = GameObject.FindObjectsOfType<PlayerTileEntity>();
+            if (PhotonNetwork.IsMasterClient)
+            {
+                foreach (var p in players)
+                {
+                    if (p != localPlayer) 
+                    {
+                        PhotonNetwork.Destroy(p.gameObject);
+                    }
+                }
+            }
             PhotonNetwork.Destroy(localPlayer.gameObject);
         }
 
