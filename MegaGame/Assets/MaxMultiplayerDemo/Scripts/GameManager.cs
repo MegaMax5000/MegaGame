@@ -39,9 +39,6 @@ namespace MaxLearns
                     Debug.LogFormat("Ignoring scene load for {0}", SceneManagerHelper.ActiveSceneName);
                 }
             }
-
-            // Register custom type
-            ExitGames.Client.Photon.PhotonPeer.RegisterType(typeof(GameInfo), (byte)'Z', GameInfo.Serialize, GameInfo.Deserialize);
         }
 
         /// <summary>

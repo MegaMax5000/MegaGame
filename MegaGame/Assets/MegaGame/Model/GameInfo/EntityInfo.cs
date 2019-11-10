@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class EntityInfo
 {
-    public Vector2 position;
+    public Vector2Int position;
     public string uid;
 
     int health;
