@@ -12,9 +12,9 @@ public class GameInfo
         string ret = "";
         foreach (EntityInfo v in entityInfos.Values)
         {
-            ret += v.Stringify() + ',';
+            ret += v.Stringify() + '$';
         }
-        if (ret.EndsWith(","))
+        if (ret.EndsWith("$"))
         {
             ret = ret.Substring(0, ret.Length - 1);
         }
@@ -25,7 +25,7 @@ public class GameInfo
     {
         GameInfo gi = new GameInfo();
 
-        string[] strs = s.Split(',');
+        string[] strs = s.Split('$');
 
         for (int i = 0; i < strs.Length; ++i)
         {
