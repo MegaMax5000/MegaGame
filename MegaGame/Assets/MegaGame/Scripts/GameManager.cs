@@ -22,6 +22,8 @@ namespace MegaGame
         public Transform Player1TempPos;
         public Transform Player2TempPos;
 
+        private GameObject localPlayer;
+
         void Start()
         {
             Instance = this;
@@ -37,6 +39,7 @@ namespace MegaGame
                     Debug.LogFormat("We are Instantiating LocalPlayer from {0}, they will be player 1", SceneManagerHelper.ActiveSceneName);
                     // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
                     GameObject player1GO = PhotonNetwork.Instantiate(this.PlayerPrefab.name, Player1TempPos.position, Player1TempPos.rotation, 0);
+                    localPlayer = player1GO;
                     player1GO.name = "Player1";
                     PlayerTileEntity pte = player1GO.GetComponent<PlayerTileEntity>();
                     pte.setUid("PLAYER_1");
@@ -51,22 +54,13 @@ namespace MegaGame
                     Debug.LogFormat("We are Instantiating LocalPlayer from {0}, they will be player 2", SceneManagerHelper.ActiveSceneName);
                     // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
                     GameObject player2GO = PhotonNetwork.Instantiate(this.PlayerPrefab.name, Player2TempPos.position, Player2TempPos.rotation, 0);
+                    localPlayer = player2GO;
                     player2GO.name = "Player2";
                     PlayerTileEntity pte2 = player2GO.GetComponent<PlayerTileEntity>();
                     pte2.setUid("PLAYER_2");
                     if (pte2 != null)
                     {
                         this.MyGameBoard.AddEntityToTile(1, 4, pte2);
-                    }
-
-                    //find and set up player 1
-                    GameObject player1GO = GameObject.Find("Player(Clone)");
-                    player1GO.name = "Player1";
-                    PlayerTileEntity pte = player1GO.GetComponent<PlayerTileEntity>();
-                    pte.setUid("PLAYER_1");
-                    if (pte != null)
-                    {
-                        this.MyGameBoard.AddEntityToTile(1, 1, pte);
                     }
                 }
             }
@@ -97,18 +91,20 @@ namespace MegaGame
         {
             Debug.LogFormat("OnPlayerLeftRoom() {0}", other.NickName); // seen when other disconnects
 
-            if (PhotonNetwork.IsMasterClient)
+            PlayerTileEntity[] players = GameObject.FindObjectsOfType<PlayerTileEntity>();
+            foreach (var p in players)
             {
-                Debug.LogFormat("OnPlayerLeftRoom() {0}", PhotonNetwork.IsMasterClient); // called before OnPlayerLeftRoom
-
-                LoadArena();
+                if (p != localPlayer) //hardcoded to 2 players :/
+                {
+                    PhotonNetwork.Destroy(p.gameObject);
+                }
             }
         }
 
         public void LeaveRoom()
         {
             PhotonNetwork.LeaveRoom();
-            PhotonNetwork.Destroy(PlayerManager.LocalPlayerInstance);
+            PhotonNetwork.Destroy(localPlayer);
         }
 
         private void LoadArena()
