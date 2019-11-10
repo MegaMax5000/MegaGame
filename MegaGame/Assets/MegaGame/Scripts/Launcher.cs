@@ -14,7 +14,7 @@ namespace MegaGame
         /// </summary>
         [Tooltip("The maximum number of players per room. When a room is full, it can't be joined by new players, and so new room will be created")]
         [SerializeField]
-        private byte maxPlayersPerRoom = 4;
+        private byte maxPlayersPerRoom = 2;
 
         #region Public Serializable Fields
 
@@ -64,7 +64,7 @@ namespace MegaGame
             //don't need to call base except for overriding on OnEnable() or OnDisable
             //base.OnConnectedToMaster();
 
-            Debug.Log("PUN Basics Tutorials/Launcher: OnConnectedToMaster() was called by PUN");
+            Debug.Log("MegaGame/Launcher: OnConnectedToMaster() was called by PUN");
 
             // we don't want to do anything if we are not attempting to join a room.
             // this case where isConnecting is false is typically when you lost or quit the game, when this level is loaded, OnConnectedToMaster will be called, in that case
@@ -81,12 +81,12 @@ namespace MegaGame
             progressLabel.SetActive(false);
             controlPanel.SetActive(true);
 
-            Debug.LogWarningFormat("PUN Basics Tutorial/Launcher: OnDisconnected() was called by PUN with reason {0}", cause);
+            Debug.LogWarningFormat("MegaGame/Launcher: OnDisconnected() was called by PUN with reason {0}", cause);
         }
 
         public override void OnJoinRandomFailed(short returnCode, string message)
         {
-            Debug.Log("PUN Basics Tutorial/Launcher:OnJoinRandomFailed() was called by PUN. No random room available, so we create one.\nCalling: PhotonNetwork.CreateRoom");
+            Debug.Log("MegaGame/Launcher:OnJoinRandomFailed() was called by PUN. No random room available, so we create one.\nCalling: PhotonNetwork.CreateRoom");
 
             // #Critical: we failed to join a random room, maybe none exists or they are all full. No worries, we create a new room.
             PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = maxPlayersPerRoom });
@@ -94,16 +94,16 @@ namespace MegaGame
 
         public override void OnJoinedRoom()
         {
-            Debug.Log("PUN Basics Tutorial/Launcher: OnJoinedRoom() called by PUN. Now this client is in a room.");
+            Debug.Log("MegaGame/Launcher: OnJoinedRoom() called by PUN. Now this client is in a room.");
 
             // #Critical: We only load if we are the first player, else we rely on `PhotonNetwork.AutomaticallySyncScene` to sync our instance scene.
             if (PhotonNetwork.CurrentRoom.PlayerCount == 1)
             {
-                Debug.Log("We load the 'Room for 1' ");
+                Debug.Log("We load the 'RoomFor2'");
 
                 // #Critical
                 // Load the Room Level.
-                PhotonNetwork.LoadLevel("Room for 1");
+                PhotonNetwork.LoadLevel("RoomFor2");
             }
         }
 
