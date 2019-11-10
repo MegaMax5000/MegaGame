@@ -1,10 +1,11 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace MegaGame
 {
-    public abstract class TileEntity : MonoBehaviour
+    public abstract class TileEntity : MonoBehaviourPunCallbacks
     {
 
         protected GameBoard gameBoard;
@@ -13,24 +14,29 @@ namespace MegaGame
         [SerializeField]
         protected float maxHealth = 0.0f;
 
-        public override bool Equals(object other)
-        {
-            return ((TileEntity)other).uid.Equals(this.uid);
-        }
+        //public override bool Equals(object other)
+        //{
+        //    return ((TileEntity)other).uid.Equals(this.uid);
+        //}
 
-        public override int GetHashCode()
-        {
-            long hashedValue = 5381;
-            for (int i = 0; i < uid.Length; i++)
-            {
-                hashedValue = ((hashedValue << 5) + hashedValue) + uid[i];
-            }
-            return (int)hashedValue;
-        }
+        //public override int GetHashCode()
+        //{
+        //    long hashedValue = 5381;
+        //    for (int i = 0; i < uid.Length; i++)
+        //    {
+        //        hashedValue = ((hashedValue << 5) + hashedValue) + uid[i];
+        //    }
+        //    return (int)hashedValue;
+        //}
 
         public string getUid()
         {
             return uid;
+        }
+
+        public void setUid(string newUid)
+        {
+            uid = newUid;
         }
 
         public TileEntity(GameBoard gb, string name, float maxHealth)

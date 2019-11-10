@@ -11,34 +11,55 @@ namespace MegaGame
         public static int WIDTH = 6;
 
         private GameInfo gameInfo = new GameInfo();
-        private Dictionary<TileEntity, Vector2Int> positionDict = new Dictionary<TileEntity, Vector2Int>();
+        private Dictionary<string, Vector2Int> positionDict = new Dictionary<string, Vector2Int>();
         [SerializeField]
         private Tile[,] boardArray = new Tile[HEIGHT, WIDTH];
 
         public List<GameObject> initTileList;
 
         // Start is called before the first frame update
-        void Start()
+        void Awake()
         {
             InitTiles();
         }
 
         private void InitTiles()
         {
-            for (int row = 0; row < HEIGHT; ++row)
+            foreach (var tile in initTileList)
             {
-                for (int col = 0; col < WIDTH; ++col)
-                {
-                    int indx = row * HEIGHT + col;
+                string name = tile.name;
+                int row = (int)(name[4] - '0');
+                int column = (int)(name[5] - '0');
 
-                    if (col < WIDTH / 2)
-                    {
-                        Tile.SIDE side = Tile.SIDE.LEFT;
-                        Tile tile = new NeutralTile(this, side);
-                        SetTileValue(row, col, tile);
-                    }
+                Tile t = tile.GetComponent<NeutralTile>();
+
+                Tile.SIDE side = Tile.SIDE.RIGHT;
+                if (column < WIDTH / 2)
+                {
+                    side = Tile.SIDE.LEFT;
                 }
+                t.SetSide(side);
+
+                t.gameBoard = this;
+                SetTileValue(row, column, t);
             }
+            //for (int row = 0; row < HEIGHT; ++row)
+            //{
+            //    for (int col = 0; col < WIDTH; ++col)
+            //    {
+            //        int index = row * HEIGHT + col;
+
+            //        Tile.SIDE side = Tile.SIDE.RIGHT;
+            //        if (col < WIDTH / 2)
+            //        {
+            //            side = Tile.SIDE.LEFT;
+            //        }
+            //        Tile tile = initTileList[index].GetComponent<NeutralTile>();
+            //        tile.SetSide(side);
+            //        tile.gameBoard = this;
+            //        SetTileValue(row, col, tile);
+            //    }
+            //}
         }
 
         public void SetTileValue(int row, int column, Tile value)
@@ -48,7 +69,14 @@ namespace MegaGame
 
             foreach (TileEntity entity in value.GetEntities())
             {
-                positionDict.Add(entity, position);
+                if (positionDict.ContainsKey(entity.getUid()))
+                {
+                    positionDict[entity.getUid()] = position;
+                }
+                else
+                {
+                    positionDict.Add(entity.getUid(), position);
+                }
             }
         }
 
@@ -60,6 +88,15 @@ namespace MegaGame
                 return;
             }
             boardArray[row, column].AddEntity(tileEntity);
+
+            if (positionDict.ContainsKey(tileEntity.getUid()))
+            {
+                positionDict[tileEntity.getUid()] = new Vector2Int(row, column);
+            }
+            else
+            {
+                positionDict.Add(tileEntity.getUid(), new Vector2Int(row, column));
+            }
         }
 
         public Tile GetTile(int row, int col)
@@ -71,14 +108,14 @@ namespace MegaGame
         public void Move(TileEntity tileEntity, MoveableTileEntity.Direction direction, EntityInfo entityInfo)
         {
             Vector2Int position;
-            if (positionDict.TryGetValue(tileEntity, out position))
+            if (positionDict.TryGetValue(tileEntity.getUid(), out position))
             {
                 Tile curTile = boardArray[position.x, position.y];
 
                 switch (direction)
                 {
                     case MoveableTileEntity.Direction.DOWN:
-                        if (position.x < HEIGHT)
+                        if (position.x < HEIGHT - 1)
                         {
                             ++position.x;
                         }
@@ -99,7 +136,7 @@ namespace MegaGame
                         break;
 
                     case MoveableTileEntity.Direction.RIGHT:
-                        if (position.y < WIDTH)
+                        if (position.y < WIDTH - 1)
                         {
                             ++position.y;
                         }
@@ -114,8 +151,16 @@ namespace MegaGame
                     curTile.RemoveTileEntity(tileEntity);
                     // Place on new tile
                     newTile.AddTileEntity(tileEntity);
+
                     // Update the position
-                    positionDict.Add(tileEntity, position);
+                    if (positionDict.ContainsKey(tileEntity.getUid()))
+                    {
+                        positionDict[tileEntity.getUid()] = new Vector2Int(position.x, position.y);
+                    }
+                    else
+                    {
+                        positionDict.Add(tileEntity.getUid(), new Vector2Int(position.x, position.y));
+                    }
 
                     // Already have info available! Update that
                     if (gameInfo.entityInfos.ContainsKey(entityInfo.uid))
@@ -123,7 +168,7 @@ namespace MegaGame
                         EntityInfo inf;
                         gameInfo.entityInfos.TryGetValue(entityInfo.uid, out inf);
                         inf.position = position;
-                        gameInfo.entityInfos.Add(entityInfo.uid, inf);
+                        gameInfo.entityInfos[entityInfo.uid] = inf;
                     }
                     else
                     {
@@ -141,7 +186,6 @@ namespace MegaGame
         // Update is called once per frame
         void Update()
         {
-            gameInfo = new GameInfo();
             TickAllTiles();
         }
 
@@ -162,11 +206,35 @@ namespace MegaGame
             {
                 // We own this player: send the others our data
                 stream.SendNext(gameInfo);
+                gameInfo = new GameInfo();
             }
             else
             {
                 // Network player, recieve data
-                //ProcessNewInfo((InfoObj)stream.ReceiveNext());
+                ProcessNewGameInfo((GameInfo)stream.ReceiveNext());
+            }
+        }
+
+        private void ProcessNewGameInfo(GameInfo info)
+        {
+            foreach (EntityInfo i in info.entityInfos.Values)
+            {
+                string uid = i.uid;
+                
+                if (positionDict.ContainsKey(uid))
+                {
+                    Vector2Int oldPos = positionDict[uid];
+                    Vector2Int newPos = i.position;
+
+                    if (oldPos != newPos)
+                    {
+                        positionDict[uid] = newPos;
+
+                        Tile tile = GetTile(newPos.x, newPos.y);
+                        tile.AddTileEntity(tile.GetEntity(uid));
+                        tile.RemoveTileEntity(uid);
+                    }
+                }
             }
         }
     }

@@ -17,7 +17,9 @@ namespace MegaGame
         [SerializeField]
         protected List<TileEntity> tileEntities = new List<TileEntity>();
 
-        protected GameBoard gameBoard;
+        public GameBoard gameBoard;
+
+        private Vector3 entityOffset = new Vector3(0, 2, 0);
 
         public Tile(GameBoard gb, SIDE side)
         {
@@ -39,6 +41,16 @@ namespace MegaGame
         public bool RemoveTileEntity(TileEntity te)
         {
             return tileEntities.Remove(te);
+        }
+
+        public bool RemoveTileEntity(string uid)
+        {
+            foreach (var te in tileEntities)
+            {
+                if (te.getUid() == uid) return tileEntities.Remove(te);
+            }
+
+            return false;
         }
 
         public void AddTileEntity(TileEntity te)
@@ -67,6 +79,16 @@ namespace MegaGame
             return this.tileEntities;
         }
 
+        public TileEntity GetEntity(string uid)
+        {
+            foreach (var te in tileEntities)
+            {
+                if (te.getUid() == uid) return te;
+            }
+
+            return null;
+        }
+
         public bool DeleteEntity(TileEntity entity)
         {
             return tileEntities.Remove(entity);
@@ -78,6 +100,7 @@ namespace MegaGame
         {
             foreach (TileEntity te in tileEntities)
             {
+                te.transform.position = this.transform.position + entityOffset;
                 te.DoTick();
             }
         }

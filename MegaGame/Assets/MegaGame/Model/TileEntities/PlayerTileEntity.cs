@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,9 +7,9 @@ namespace MegaGame
 {
     public class PlayerTileEntity : MoveableTileEntity
     {
-        private bool cooldown = false;
+        public float Cooldown_time = 0.1f;
 
-        public static float COOLDOWN_TIME = 0.4f;
+        //never getting called right now
         public PlayerTileEntity(GameBoard gb, string name, float maxHealth, bool isPlayer1) : base(gb, name, maxHealth)
         {
             if (isPlayer1)
@@ -23,7 +24,8 @@ namespace MegaGame
 
         public override void DoMove(Direction direction, EntityInfo info)
         {
-            gameBoard.Move(this, direction, info);
+            GameManager.Instance.MyGameBoard.Move(this, direction, info);
+            cooldownTimer = Cooldown_time;
         }
 
         public override void DoTick()
@@ -31,41 +33,33 @@ namespace MegaGame
             // Do nothing
         }
 
-        // Start is called before the first frame update
-        void Start()
-        {
-
-        }
-
-        public void ResetCooldown()
-        {
-            cooldown = false;
-        }
-
+        private float cooldownTimer;
         // Update is called once per frame
         void Update()
         {
             EntityInfo entityInfo = new EntityInfo(this.getUid());
-            if (!cooldown)
+            if (cooldownTimer <= 0)
             {
-                if (Input.GetKeyDown("w"))
+                if (Input.GetKeyDown(KeyCode.W))
                 {
                     DoMove(Direction.UP, entityInfo);
                 }
-                else if (Input.GetKeyDown("d"))
+                else if (Input.GetKeyDown(KeyCode.D))
                 {
                     DoMove(Direction.RIGHT, entityInfo);
                 }
-                else if (Input.GetKeyDown("a"))
+                else if (Input.GetKeyDown(KeyCode.A))
                 {
                     DoMove(Direction.LEFT, entityInfo);
                 }
-                else if (Input.GetKeyDown("s"))
+                else if (Input.GetKeyDown(KeyCode.S))
                 {
                     DoMove(Direction.DOWN, entityInfo);
                 }
-                Invoke("ResetCooldown", COOLDOWN_TIME);
-                cooldown = true;
+            }
+            else
+            {
+                cooldownTimer -= Time.deltaTime;
             }
         }
     }

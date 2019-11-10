@@ -30,6 +30,7 @@ namespace MegaGame
 
         public override void DoTick()
         {
+            base.DoTick();
         }
     }
 }
