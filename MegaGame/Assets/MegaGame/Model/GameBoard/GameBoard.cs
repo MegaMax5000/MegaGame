@@ -239,9 +239,9 @@ namespace MegaGame
                         positionDict[uid] = newPos;
 
                         Tile newTile = GetTile(newPos.x, newPos.y);
-                        newTile.AddTileEntity(uid);
-
                         Tile oldTile = GetTile(oldPos.x, oldPos.y);
+
+                        newTile.AddTileEntity(oldTile.GetEntity(uid));
                         oldTile.RemoveTileEntity(uid);
                     }
                 }
