@@ -10,7 +10,9 @@ namespace MegaGame
         public static int HEIGHT = 3;
         public static int WIDTH = 6;
 
-        private GameInfo gameInfo = new GameInfo();
+        protected GameInfo gameInfo = new GameInfo();
+        public GameInfo GetGameInfo() { return gameInfo; }
+
         private Dictionary<string, Vector2Int> positionDict = new Dictionary<string, Vector2Int>();
         [SerializeField]
         private Tile[,] boardArray = new Tile[HEIGHT, WIDTH];
@@ -204,26 +206,26 @@ namespace MegaGame
 
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
         {
-            if (stream.IsWriting)
-            {
-                if (gameInfo.wasUpdated)
-                {
-                    // We own this player: send the others our data
-                    string giString = gameInfo.Stringify();
-                    stream.SendNext(giString);
-                    gameInfo = new GameInfo();
-                }
-            }
-            else
-            {
-                // Network player, recieve data
-                string r = (string)stream.ReceiveNext();
-                GameInfo gi = GameInfo.fromString(r);
-                ProcessNewGameInfo(gi);
-            }
+            //if (stream.IsWriting)
+            //{
+            //    if (gameInfo.wasUpdated)
+            //    {
+            //        // We own this player: send the others our data
+            //        string giString = gameInfo.Stringify();
+            //        stream.SendNext(giString);
+            //        gameInfo = new GameInfo();
+            //    }
+            //}
+            //else
+            //{
+            //    // Network player, recieve data
+            //    string r = (string)stream.ReceiveNext();
+            //    GameInfo gi = GameInfo.fromString(r);
+            //    ProcessNewGameInfo(gi);
+            //}
         }
 
-        private void ProcessNewGameInfo(GameInfo info)
+        public void ProcessNewGameInfo(GameInfo info)
         {
             foreach (EntityInfo i in info.entityInfos.Values)
             {

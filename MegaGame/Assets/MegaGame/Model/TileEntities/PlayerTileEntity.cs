@@ -69,11 +69,24 @@ namespace MegaGame
             {
                 // We own this player: send the others our data
                 stream.SendNext(uid);
+
+                GameInfo gi = GameManager.Instance.MyGameBoard.GetGameInfo();
+                if (gi.wasUpdated)
+                {
+                    // We own this player: send the others our data
+                    string giString = gi.Stringify();
+                    stream.SendNext(giString);
+                    gi = new GameInfo();
+                }
             }
             else
             {
                 // Network player, recieve data
                 setUid((string)stream.ReceiveNext());
+
+                string r = (string)stream.ReceiveNext();
+                GameInfo gi = GameInfo.fromString(r);
+                GameManager.Instance.MyGameBoard.ProcessNewGameInfo(gi);
             }
         }
     }

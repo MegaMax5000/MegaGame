@@ -38,7 +38,7 @@ namespace MegaGame
                 {
                     Debug.LogFormat("We are Instantiating LocalPlayer from {0}, they will be player 1", SceneManagerHelper.ActiveSceneName);
                     // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
-                    GameObject player1GO = PhotonNetwork.Instantiate(this.PlayerPrefab.name, Player1TempPos.position, Player1TempPos.rotation, 0);
+                    GameObject player1GO = PhotonNetwork.Instantiate(this.PlayerPrefab.name, Player1TempPos.position, Player1TempPos.rotation);
                     player1GO.name = "Player1";
                     PlayerTileEntity pte = player1GO.GetComponent<PlayerTileEntity>();
                     localPlayer = pte;
@@ -53,7 +53,7 @@ namespace MegaGame
                 {
                     Debug.LogFormat("We are Instantiating LocalPlayer from {0}, they will be player 2", SceneManagerHelper.ActiveSceneName);
                     // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
-                    GameObject player2GO = PhotonNetwork.Instantiate(this.PlayerPrefab.name, Player2TempPos.position, Player2TempPos.rotation, 0);
+                    GameObject player2GO = PhotonNetwork.Instantiate(this.PlayerPrefab.name, Player2TempPos.position, Player2TempPos.rotation);
                     player2GO.name = "Player2";
                     PlayerTileEntity pte = player2GO.GetComponent<PlayerTileEntity>();
                     localPlayer = pte;
@@ -77,16 +77,6 @@ namespace MegaGame
         public override void OnPlayerEnteredRoom(Player other)
         {
             Debug.LogFormat("OnPlayerEnteredRoom() {0}", other.NickName); // not seen if you're the player connecting
-
-            PlayerTileEntity[] players = GameObject.FindObjectsOfType<PlayerTileEntity>();
-            foreach (var p in players)
-            {
-                if (p != localPlayer) //hardcoded to 2 players :/
-                {
-                    p.setUid("PLAYER_2");
-                    this.MyGameBoard.AddEntityToTile(1, 4, p);
-                }
-            }
 
             if (!PhotonNetwork.IsMasterClient)
             {
