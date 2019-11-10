@@ -94,6 +94,15 @@ namespace MegaGame
             PhotonNetwork.Destroy(localPlayer.gameObject);
         }
 
+        public override void OnMasterClientSwitched(Player newMasterClient)
+        {
+            base.OnMasterClientSwitched(newMasterClient);
+            Debug.LogFormat("Player {0} left the room and ruined it for everyone else.", other.NickName); // seen when other disconnects
+
+            PhotonNetwork.LeaveRoom();
+            PhotonNetwork.Destroy(localPlayer.gameObject);
+        }
+
         public void LeaveRoom()
         {
             PhotonNetwork.LeaveRoom();
