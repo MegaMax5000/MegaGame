@@ -22,7 +22,7 @@ namespace MegaGame
                 {
                     int indx = row * HEIGHT + col;
                     
-                    if (col < 3)
+                    if (col < WIDTH/2)
                     {
                         Tile.SIDE side = Tile.SIDE.LEFT;
                         Tile tile = new NeutralTile(this, side);
