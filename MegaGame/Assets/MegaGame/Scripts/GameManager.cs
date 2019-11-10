@@ -97,7 +97,7 @@ namespace MegaGame
         public override void OnMasterClientSwitched(Player newMasterClient)
         {
             base.OnMasterClientSwitched(newMasterClient);
-            Debug.LogFormat("Player {0} left the room and ruined it for everyone else.", other.NickName); // seen when other disconnects
+            Debug.Log("Player left the room and ruined it for everyone else."); // seen when other disconnects
 
             PhotonNetwork.LeaveRoom();
             PhotonNetwork.Destroy(localPlayer.gameObject);
