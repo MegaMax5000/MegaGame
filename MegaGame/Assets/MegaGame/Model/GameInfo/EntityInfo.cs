@@ -22,6 +22,10 @@ public class EntityInfo
     // s will be in the form of (uid,x,y)
     public static EntityInfo fromString(string s)
     {
+        if (s.Length < 1)
+        {
+            return null;
+        }
         // strip off parenthesis 
         s = s.Substring(1, s.Length - 1);
         string[] strs = s.Split(',');
