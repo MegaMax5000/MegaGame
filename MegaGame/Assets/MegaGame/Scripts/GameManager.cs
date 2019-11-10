@@ -16,28 +16,43 @@ namespace MegaGame
         public static GameManager Instance;
 
         [Tooltip("The prefab to use for representing the player")]
-        public GameObject playerPrefab;
+        public GameObject PlayerPrefab;
+
+        public Transform Player1TempPos;
+        public Transform Player2TempPos;
 
         void Start()
         {
             Instance = this;
 
-            if (playerPrefab == null)
+            if (PlayerPrefab == null)
             {
                 Debug.LogError("<Color=Red><a>Missing</a></Color> playerPrefab Reference. Please set it up in GameObject 'Game Manager'", this);
             }
             else
             {
-                if (PlayerManager.LocalPlayerInstance == null)
+                if (PhotonNetwork.CurrentRoom.PlayerCount == 1)
                 {
-                    Debug.LogFormat("We are Instantiating LocalPlayer from {0}", SceneManagerHelper.ActiveSceneName);
+                    Debug.LogFormat("We are Instantiating LocalPlayer from {0}, they will be player 1", SceneManagerHelper.ActiveSceneName);
                     // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
-                    PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(0f, 5f, 0f), Quaternion.identity, 0);
+                    PhotonNetwork.Instantiate(this.PlayerPrefab.name, Player1TempPos.position, Player1TempPos.rotation, 0);
                 }
                 else
                 {
-                    Debug.LogFormat("Ignoring scene load for {0}", SceneManagerHelper.ActiveSceneName);
+                    Debug.LogFormat("We are Instantiating LocalPlayer from {0}, they will be player 2", SceneManagerHelper.ActiveSceneName);
+                    // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
+                    PhotonNetwork.Instantiate(this.PlayerPrefab.name, Player2TempPos.position, Player2TempPos.rotation, 0);
                 }
+                //if (PlayerManager.LocalPlayerInstance == null)
+                //{
+                //    Debug.LogFormat("We are Instantiating LocalPlayer from {0}", SceneManagerHelper.ActiveSceneName);
+                //    // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
+                //    PhotonNetwork.Instantiate(this.PlayerPrefab.name, Player1TempPos.position, Player1TempPos.rotation, 0);
+                //}
+                //else
+                //{
+                //    Debug.LogFormat("Ignoring scene load for {0}", SceneManagerHelper.ActiveSceneName);
+                //}
             }
         }
 
@@ -53,11 +68,12 @@ namespace MegaGame
         {
             Debug.LogFormat("OnPlayerEnteredRoom() {0}", other.NickName); // not seen if you're the player connecting
 
-            if (PhotonNetwork.IsMasterClient)
+            if (!PhotonNetwork.IsMasterClient)
             {
                 Debug.LogFormat("OnPlayerEnteredRoom() {0}", PhotonNetwork.IsMasterClient); // called before OnPlayerLeftRoom
 
                 LoadArena();
+
             }
         }
 
@@ -85,10 +101,10 @@ namespace MegaGame
             {
                 Debug.LogError("PhotonNetwork : Trying to load a level but we are not the master Client");
             }
-            Debug.LogFormat("PhotonNetwork : Loading level : {0}", PhotonNetwork.CurrentRoom.PlayerCount);
+            Debug.Log("PhotonNetwork : Loading level RoomFor2");
 
             //only ever call this if you are the master client
-            PhotonNetwork.LoadLevel("Room for " + PhotonNetwork.CurrentRoom.PlayerCount);
+            PhotonNetwork.LoadLevel("RoomFor2");
         }
     }
 }
