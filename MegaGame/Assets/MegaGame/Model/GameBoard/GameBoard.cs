@@ -172,6 +172,7 @@ namespace MegaGame
                     }
                     else
                     {
+                        entityInfo.position = position;
                         // No info available. Use this one.
                         gameInfo.entityInfos.Add(entityInfo.uid, entityInfo);
                     }
