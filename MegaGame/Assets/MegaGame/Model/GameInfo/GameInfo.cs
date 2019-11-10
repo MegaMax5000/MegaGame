@@ -5,28 +5,35 @@ using UnityEngine;
 
 public class GameInfo
 {
-    public byte Id { get; set; }
 
-    public static byte[] Serialize(object o)
+    // int the form of (v1,v2,v3),(v1,v2,v3),...
+    public string Stringify()
     {
-        BinaryFormatter bf = new BinaryFormatter();
-        using (var ms = new System.IO.MemoryStream())
+        string ret = "";
+        foreach (EntityInfo v in entityInfos.Values)
         {
-            bf.Serialize(ms, o);
-            return ms.ToArray();
+            ret += v.Stringify() + ',';
         }
+        if (ret.EndsWith(","))
+        {
+            ret = ret.Substring(0, ret.Length - 1);
+        }
+        return ret;
     }
 
-    public static object Deserialize(byte[] arrBytes)
+    public static GameInfo fromString(string s)
     {
-        using (var memStream = new System.IO.MemoryStream())
+        GameInfo gi = new GameInfo();
+
+        string[] strs = s.Split(',');
+
+        for (int i = 0; i < strs.Length; ++i)
         {
-            var binForm = new BinaryFormatter();
-            memStream.Write(arrBytes, 0, arrBytes.Length);
-            memStream.Seek(0, System.IO.SeekOrigin.Begin);
-            var obj = binForm.Deserialize(memStream);
-            return obj;
+            EntityInfo info = EntityInfo.fromString(strs[i]);
+            gi.entityInfos.Add(info.uid, info);
         }
+        return gi;
     }
+
     public Dictionary<string, EntityInfo> entityInfos = new Dictionary<string, EntityInfo>();
 }
