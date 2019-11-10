@@ -27,7 +27,7 @@ public class EntityInfo
             return null;
         }
         // strip off parenthesis 
-        s = s.Substring(1, s.Length - 1);
+        s = s.Substring(1, s.Length - 2);
         string[] strs = s.Split(',');
         string id = strs[0];
         EntityInfo ei = new EntityInfo(id);
