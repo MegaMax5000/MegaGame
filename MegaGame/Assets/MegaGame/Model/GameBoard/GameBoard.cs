@@ -1,10 +1,11 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace MegaGame
 {
-    public class GameBoard : MonoBehaviour
+    public class GameBoard : MonoBehaviourPunCallbacks, IPunObservable
     {
         public static int HEIGHT = 3;
         public static int WIDTH = 6;
@@ -13,16 +14,22 @@ namespace MegaGame
         private Tile[,] boardArray = new Tile[HEIGHT, WIDTH];
 
         public List<GameObject> initTileList;
+
         // Start is called before the first frame update
         void Start()
+        {
+            InitTiles();
+        }
+
+        private void InitTiles()
         {
             for (int row = 0; row < HEIGHT; ++row)
             {
                 for (int col = 0; col < WIDTH; ++col)
                 {
                     int indx = row * HEIGHT + col;
-                    
-                    if (col < WIDTH/2)
+
+                    if (col < WIDTH / 2)
                     {
                         Tile.SIDE side = Tile.SIDE.LEFT;
                         Tile tile = new NeutralTile(this, side);
@@ -31,7 +38,7 @@ namespace MegaGame
                 }
             }
         }
-        
+
         public void SetTileValue(int row, int column, Tile value)
         {
             boardArray[row, column] = value;
@@ -118,12 +125,31 @@ namespace MegaGame
         // Update is called once per frame
         void Update()
         {
+            TickAllTiles();
+        }
+
+        private void TickAllTiles()
+        {
             for (int i = 0; i < HEIGHT; ++i)
             {
                 for (int j = 0; j < WIDTH; ++j)
                 {
                     boardArray[i, j].DoTick();
                 }
+            }
+        }
+
+        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        {
+            if (stream.IsWriting)
+            {
+                // We own this player: send the others our data
+                //stream.SendNext(MyInfo);
+            }
+            else
+            {
+                // Network player, recieve data
+                //ProcessNewInfo((InfoObj)stream.ReceiveNext());
             }
         }
     }

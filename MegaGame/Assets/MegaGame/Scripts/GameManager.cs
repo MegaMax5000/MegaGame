@@ -17,6 +17,7 @@ namespace MegaGame
 
         [Tooltip("The prefab to use for representing the player")]
         public GameObject PlayerPrefab;
+        public GameBoard MyGameBoard;
 
         public Transform Player1TempPos;
         public Transform Player2TempPos;
@@ -35,24 +36,35 @@ namespace MegaGame
                 {
                     Debug.LogFormat("We are Instantiating LocalPlayer from {0}, they will be player 1", SceneManagerHelper.ActiveSceneName);
                     // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
-                    PhotonNetwork.Instantiate(this.PlayerPrefab.name, Player1TempPos.position, Player1TempPos.rotation, 0);
+                    GameObject player1GO = PhotonNetwork.Instantiate(this.PlayerPrefab.name, Player1TempPos.position, Player1TempPos.rotation, 0);
+                    PlayerTileEntity pte = player1GO.GetComponent<PlayerTileEntity>();
+                    if (pte != null)
+                    {
+                        this.MyGameBoard.AddEntityToTile(1, 1, pte);
+                    }
+
                 }
                 else
                 {
                     Debug.LogFormat("We are Instantiating LocalPlayer from {0}, they will be player 2", SceneManagerHelper.ActiveSceneName);
                     // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
-                    PhotonNetwork.Instantiate(this.PlayerPrefab.name, Player2TempPos.position, Player2TempPos.rotation, 0);
+                    GameObject player2GO = PhotonNetwork.Instantiate(this.PlayerPrefab.name, Player2TempPos.position, Player2TempPos.rotation, 0);
+                    PlayerTileEntity pte = player2GO.GetComponent<PlayerTileEntity>();
+                    if (pte != null)
+                    {
+                        this.MyGameBoard.AddEntityToTile(1, 4, pte);
+                    }
+                    //if (PlayerManager.LocalPlayerInstance == null)
+                    //{
+                    //    Debug.LogFormat("We are Instantiating LocalPlayer from {0}", SceneManagerHelper.ActiveSceneName);
+                    //    // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
+                    //    PhotonNetwork.Instantiate(this.PlayerPrefab.name, Player1TempPos.position, Player1TempPos.rotation, 0);
+                    //}
+                    //else
+                    //{
+                    //    Debug.LogFormat("Ignoring scene load for {0}", SceneManagerHelper.ActiveSceneName);
+                    //}
                 }
-                //if (PlayerManager.LocalPlayerInstance == null)
-                //{
-                //    Debug.LogFormat("We are Instantiating LocalPlayer from {0}", SceneManagerHelper.ActiveSceneName);
-                //    // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
-                //    PhotonNetwork.Instantiate(this.PlayerPrefab.name, Player1TempPos.position, Player1TempPos.rotation, 0);
-                //}
-                //else
-                //{
-                //    Debug.LogFormat("Ignoring scene load for {0}", SceneManagerHelper.ActiveSceneName);
-                //}
             }
         }
 

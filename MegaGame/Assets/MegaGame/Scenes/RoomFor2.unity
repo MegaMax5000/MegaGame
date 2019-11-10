@@ -1101,6 +1101,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerPrefab: {fileID: 2483514044975891768, guid: 61c285efd386ad24faa2f2da7609a4bc,
     type: 3}
+  GameBoard: {fileID: 1870003669}
   Player1TempPos: {fileID: 1283565280}
   Player2TempPos: {fileID: 744291853}
 --- !u!4 &1264879222
