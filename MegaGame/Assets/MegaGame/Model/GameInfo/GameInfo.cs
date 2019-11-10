@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class GameInfo
 {
-
+    public bool wasUpdated = false;
     // int the form of (v1,v2,v3),(v1,v2,v3),...
     public string Stringify()
     {

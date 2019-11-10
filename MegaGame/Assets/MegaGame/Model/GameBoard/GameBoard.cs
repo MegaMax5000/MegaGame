@@ -175,6 +175,7 @@ namespace MegaGame
                         // No info available. Use this one.
                         gameInfo.entityInfos.Add(entityInfo.uid, entityInfo);
                     }
+                    gameInfo.wasUpdated = true;
                 }
             }
             else
@@ -204,10 +205,13 @@ namespace MegaGame
         {
             if (stream.IsWriting)
             {
-                // We own this player: send the others our data
-                string giString = gameInfo.Stringify();
-                stream.SendNext(giString);
-                gameInfo = new GameInfo();
+                if (gameInfo.wasUpdated)
+                {
+                    // We own this player: send the others our data
+                    string giString = gameInfo.Stringify();
+                    stream.SendNext(giString);
+                    gameInfo = new GameInfo();
+                }
             }
             else
             {
