@@ -6,12 +6,9 @@ namespace MegaGame
 {
     public abstract class TileEntity : MonoBehaviour
     {
-        protected GameObject gameObject;
 
         protected GameBoard gameBoard;
 
-        [SerializeField]
-        protected string name = null;
         [SerializeField]
         protected float maxHealth = 0.0f;
 
