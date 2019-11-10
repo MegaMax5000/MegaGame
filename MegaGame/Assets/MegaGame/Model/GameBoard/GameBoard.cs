@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace MegaGame
 {
-    public class GameBoard : MonoBehaviourPunCallbacks, IPunObservable
+    public class GameBoard : MonoBehaviourPunCallbacks
     {
         public static int HEIGHT = 3;
         public static int WIDTH = 6;
@@ -202,27 +202,6 @@ namespace MegaGame
                     boardArray[i, j].DoTick();
                 }
             }
-        }
-
-        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-        {
-            //if (stream.IsWriting)
-            //{
-            //    if (gameInfo.wasUpdated)
-            //    {
-            //        // We own this player: send the others our data
-            //        string giString = gameInfo.Stringify();
-            //        stream.SendNext(giString);
-            //        gameInfo = new GameInfo();
-            //    }
-            //}
-            //else
-            //{
-            //    // Network player, recieve data
-            //    string r = (string)stream.ReceiveNext();
-            //    GameInfo gi = GameInfo.fromString(r);
-            //    ProcessNewGameInfo(gi);
-            //}
         }
 
         public void ProcessNewGameInfo(GameInfo info)
