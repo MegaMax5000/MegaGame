@@ -31,7 +31,7 @@ namespace MegaGame
 
         }
 
-        public abstract void DoMove(Direction direction);
+        public abstract void DoMove(Direction direction, EntityInfo info);
 
     }
 }

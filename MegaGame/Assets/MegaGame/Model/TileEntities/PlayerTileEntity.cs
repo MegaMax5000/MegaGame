@@ -14,9 +14,9 @@ namespace MegaGame
 
         }
 
-        public override void DoMove(Direction direction)
+        public override void DoMove(Direction direction, EntityInfo info)
         {
-            gameBoard.Move(this, direction);
+            gameBoard.Move(this, direction, info);
         }
 
         public override void DoTick()
@@ -38,29 +38,28 @@ namespace MegaGame
         // Update is called once per frame
         void Update()
         {
+            EntityInfo entityInfo = new EntityInfo(this.getUid());
             if (!cooldown)
             {
                 if (Input.GetKeyDown("w"))
                 {
-                    DoMove(Direction.UP);
+                    DoMove(Direction.UP, entityInfo);
                 }
                 else if (Input.GetKeyDown("d"))
                 {
-                    DoMove(Direction.RIGHT);
+                    DoMove(Direction.RIGHT, entityInfo);
                 }
                 else if (Input.GetKeyDown("a"))
                 {
-                    DoMove(Direction.LEFT);
+                    DoMove(Direction.LEFT, entityInfo);
                 }
                 else if (Input.GetKeyDown("s"))
                 {
-                    DoMove(Direction.DOWN);
+                    DoMove(Direction.DOWN, entityInfo);
                 }
                 Invoke("ResetCooldown", COOLDOWN_TIME);
                 cooldown = true;
             }
         }
-
-
     }
 }

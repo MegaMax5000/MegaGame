@@ -9,6 +9,8 @@ namespace MegaGame
     {
         public static int HEIGHT = 3;
         public static int WIDTH = 6;
+
+        private GameInfo gameInfo = new GameInfo();
         private Dictionary<TileEntity, Vector2Int> positionDict = new Dictionary<TileEntity, Vector2Int>();
         [SerializeField]
         private Tile[,] boardArray = new Tile[HEIGHT, WIDTH];
@@ -66,7 +68,7 @@ namespace MegaGame
         }
 
 
-        public void Move(TileEntity tileEntity, MoveableTileEntity.Direction direction)
+        public void Move(TileEntity tileEntity, MoveableTileEntity.Direction direction, EntityInfo entityInfo)
         {
             Vector2Int position;
             if (positionDict.TryGetValue(tileEntity, out position))
@@ -114,6 +116,20 @@ namespace MegaGame
                     newTile.AddTileEntity(tileEntity);
                     // Update the position
                     positionDict.Add(tileEntity, position);
+
+                    // Already have info available! Update that
+                    if (gameInfo.entityInfos.ContainsKey(entityInfo.uid))
+                    {
+                        EntityInfo inf;
+                        gameInfo.entityInfos.TryGetValue(entityInfo.uid, out inf);
+                        inf.position = position;
+                        gameInfo.entityInfos.Add(entityInfo.uid, inf);
+                    }
+                    else
+                    {
+                        // No info available. Use this one.
+                        gameInfo.entityInfos.Add(entityInfo.uid, entityInfo);
+                    }
                 }
             }
             else
@@ -125,6 +141,7 @@ namespace MegaGame
         // Update is called once per frame
         void Update()
         {
+            gameInfo = new GameInfo();
             TickAllTiles();
         }
 
@@ -144,7 +161,7 @@ namespace MegaGame
             if (stream.IsWriting)
             {
                 // We own this player: send the others our data
-                //stream.SendNext(MyInfo);
+                stream.SendNext(gameInfo);
             }
             else
             {
