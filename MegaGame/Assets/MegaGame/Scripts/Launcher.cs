@@ -97,7 +97,7 @@ namespace MegaGame
             Debug.Log("MegaGame/Launcher: OnJoinedRoom() called by PUN. Now this client is in a room.");
 
             // #Critical: We only load if we are the first player, else we rely on `PhotonNetwork.AutomaticallySyncScene` to sync our instance scene.
-            if (PhotonNetwork.CurrentRoom.PlayerCount == 1)
+            if (/*PhotonNetwork.CurrentRoom.PlayerCount == 1*/true)
             {
                 Debug.Log("We load the 'RoomFor2'");
 
