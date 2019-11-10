@@ -9,14 +9,21 @@ namespace MegaGame
         private bool cooldown = false;
 
         public static float COOLDOWN_TIME = 0.4f;
-        public PlayerTileEntity(GameBoard gb, string name, float maxHealth) : base(gb, name, maxHealth)
+        public PlayerTileEntity(GameBoard gb, string name, float maxHealth, bool isPlayer1) : base(gb, name, maxHealth)
         {
-
+            if (isPlayer1)
+            {
+                this.uid = "PLAYER_1";
+            }
+            else
+            {
+                this.uid = "PLAYER_2";
+            }
         }
 
-        public override void DoMove(Direction direction)
+        public override void DoMove(Direction direction, EntityInfo info)
         {
-            gameBoard.Move(this, direction);
+            gameBoard.Move(this, direction, info);
         }
 
         public override void DoTick()
@@ -38,29 +45,28 @@ namespace MegaGame
         // Update is called once per frame
         void Update()
         {
+            EntityInfo entityInfo = new EntityInfo(this.getUid());
             if (!cooldown)
             {
                 if (Input.GetKeyDown("w"))
                 {
-                    DoMove(Direction.UP);
+                    DoMove(Direction.UP, entityInfo);
                 }
                 else if (Input.GetKeyDown("d"))
                 {
-                    DoMove(Direction.RIGHT);
+                    DoMove(Direction.RIGHT, entityInfo);
                 }
                 else if (Input.GetKeyDown("a"))
                 {
-                    DoMove(Direction.LEFT);
+                    DoMove(Direction.LEFT, entityInfo);
                 }
                 else if (Input.GetKeyDown("s"))
                 {
-                    DoMove(Direction.DOWN);
+                    DoMove(Direction.DOWN, entityInfo);
                 }
                 Invoke("ResetCooldown", COOLDOWN_TIME);
                 cooldown = true;
             }
         }
-
-
     }
 }
