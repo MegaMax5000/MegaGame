@@ -37,6 +37,7 @@ namespace MegaGame
                     Debug.LogFormat("We are Instantiating LocalPlayer from {0}, they will be player 1", SceneManagerHelper.ActiveSceneName);
                     // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
                     GameObject player1GO = PhotonNetwork.Instantiate(this.PlayerPrefab.name, Player1TempPos.position, Player1TempPos.rotation, 0);
+                    player1GO.name = "Player1";
                     PlayerTileEntity pte = player1GO.GetComponent<PlayerTileEntity>();
                     pte.setUid("PLAYER_1");
                     if (pte != null)
@@ -50,22 +51,22 @@ namespace MegaGame
                     Debug.LogFormat("We are Instantiating LocalPlayer from {0}, they will be player 2", SceneManagerHelper.ActiveSceneName);
                     // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
                     GameObject player2GO = PhotonNetwork.Instantiate(this.PlayerPrefab.name, Player2TempPos.position, Player2TempPos.rotation, 0);
-                    PlayerTileEntity pte = player2GO.GetComponent<PlayerTileEntity>();
-                    pte.setUid("PLAYER_2");
+                    player2GO.name = "Player2";
+                    PlayerTileEntity pte2 = player2GO.GetComponent<PlayerTileEntity>();
+                    pte2.setUid("PLAYER_2");
+                    if (pte2 != null)
+                    {
+                        this.MyGameBoard.AddEntityToTile(1, 4, pte2);
+                    }
+
+                    //find and set up player 1
+                    GameObject player1GO = GameObject.Find("Player1");
+                    PlayerTileEntity pte = player1GO.GetComponent<PlayerTileEntity>();
+                    pte.setUid("PLAYER_1");
                     if (pte != null)
                     {
-                        this.MyGameBoard.AddEntityToTile(1, 4, pte);
+                        this.MyGameBoard.AddEntityToTile(1, 1, pte);
                     }
-                    //if (PlayerManager.LocalPlayerInstance == null)
-                    //{
-                    //    Debug.LogFormat("We are Instantiating LocalPlayer from {0}", SceneManagerHelper.ActiveSceneName);
-                    //    // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
-                    //    PhotonNetwork.Instantiate(this.PlayerPrefab.name, Player1TempPos.position, Player1TempPos.rotation, 0);
-                    //}
-                    //else
-                    //{
-                    //    Debug.LogFormat("Ignoring scene load for {0}", SceneManagerHelper.ActiveSceneName);
-                    //}
                 }
             }
         }
