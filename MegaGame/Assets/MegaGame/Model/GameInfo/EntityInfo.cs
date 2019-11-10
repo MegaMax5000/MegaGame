@@ -22,6 +22,7 @@ public class EntityInfo
     // s will be in the form of (uid,x,y)
     public static EntityInfo fromString(string s)
     {
+        Debug.Log("Recieved entity info " + s);
         if (s.Length < 1)
         {
             return null;

@@ -30,7 +30,15 @@ public class GameInfo
         for (int i = 0; i < strs.Length; ++i)
         {
             EntityInfo info = EntityInfo.fromString(strs[i]);
-            gi.entityInfos.Add(info.uid, info);
+
+            if (info != null)
+            {
+                gi.entityInfos.Add(info.uid, info);
+            }
+            else
+            {
+                Debug.Log("[GameInfo.fromString] EntityInfo returned from fromString was null");
+            }
         }
         return gi;
     }
