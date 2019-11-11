@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace MegaGame
 {
-    public class PlayerTileEntity : MoveableTileEntity, IPunObservable
+    public class PlayerTileEntity : TileEntity, IMoveable, IPunObservable
     {
         public float Cooldown_time = 0.1f;
 
@@ -15,49 +15,43 @@ namespace MegaGame
             
         }
 
-        public override void DoMove(Direction direction, EntityInfo info)
+        public void DoMove(TileEntityConstants.Direction direction)
         {
-            GameManager.Instance.MyGameBoard.Move(this, direction, info);
+            GameManager.Instance.MyGameBoard.Move(this, direction);
             cooldownTimer = Cooldown_time;
         }
 
-        public void DoLurch(EntityInfo info)
-        {
-            GameManager.Instance.MyGameBoard.Move(this, Direction.LEFT, info);
-            GameManager.Instance.MyGameBoard.Move(this, Direction.LEFT, info);
-            cooldownTimer = Cooldown_time;
-        }
         public override void DoTick()
         {
             // Do nothing
         }
 
-        private float cooldownTimer;
         // Update is called once per frame
         void Update()
         {
-            EntityInfo entityInfo = new EntityInfo(this.getUid());
+            handleMove();
+        }
+
+        private float cooldownTimer;
+        private void handleMove()
+        {
             if (cooldownTimer <= 0 && photonView.IsMine)
             {
                 if (Input.GetKeyDown(KeyCode.W))
                 {
-                    DoMove(Direction.UP, entityInfo);
+                    DoMove(TileEntityConstants.Direction.UP);
                 }
                 else if (Input.GetKeyDown(KeyCode.D))
                 {
-                    DoMove(Direction.RIGHT, entityInfo);
+                    DoMove(TileEntityConstants.Direction.RIGHT);
                 }
                 else if (Input.GetKeyDown(KeyCode.A))
                 {
-                    DoMove(Direction.LEFT, entityInfo);
+                    DoMove(TileEntityConstants.Direction.LEFT);
                 }
                 else if (Input.GetKeyDown(KeyCode.S))
                 {
-                    DoMove(Direction.DOWN, entityInfo);
-                }
-                else if (Input.GetKeyDown(KeyCode.Space))
-                {
-                    DoLurch(entityInfo);
+                    DoMove(TileEntityConstants.Direction.DOWN);
                 }
             }
             else
@@ -65,7 +59,6 @@ namespace MegaGame
                 cooldownTimer -= Time.deltaTime;
             }
         }
-
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
         {
             if (stream.IsWriting)

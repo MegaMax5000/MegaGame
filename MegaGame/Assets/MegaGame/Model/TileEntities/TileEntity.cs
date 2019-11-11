@@ -15,6 +15,9 @@ namespace MegaGame
         [SerializeField]
         protected float maxHealth = 0.0f;
 
+        [SerializeField]
+        protected float health = 0.0f;
+
         //public override bool Equals(object other)
         //{
         //    return ((TileEntity)other).uid.Equals(this.uid);
@@ -82,6 +85,24 @@ namespace MegaGame
             return this.name;
         }
 
+
+        /***
+         * This will subtract the passed in amount from this.health. If this makes this.health
+         * go below 0, we reset this.health to 0 and return amount of damage that was actually
+         * applied.
+         ***/
+        public float TakeDamage(float amount)
+        {
+            this.health -= amount;
+            if (this.health < 0)
+            {
+                float surplusDamage = this.health * -1;
+                this.health = 0;
+                return amount - surplusDamage;
+            }
+
+            return amount;
+        }
 
     }
 }

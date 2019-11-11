@@ -106,80 +106,63 @@ namespace MegaGame
             return boardArray[row, col];
         }
 
-
-        public void Move(TileEntity tileEntity, MoveableTileEntity.Direction direction, EntityInfo entityInfo)
+        public Tile GetTile(Vector2Int coords)
         {
-            Vector2Int position;
-            if (positionDict.TryGetValue(tileEntity.getUid(), out position))
+            return boardArray[coords.x, coords.y];
+        }
+
+        private bool UpdateOrAddToPositionDictionary(TileEntity te, Vector2Int value)
+        {
+            return UpdateOrAddToPositionDictionary(te.getUid(), value);
+        }
+
+        // Will return true if added a new entry, false if updated existing one
+        private bool UpdateOrAddToPositionDictionary(string key, Vector2Int value)
+        {
+            // Update the position
+            if (positionDict.ContainsKey(key))
             {
-                Tile curTile = boardArray[position.x, position.y];
-                Tile.SIDE side = curTile.GetSide();
-                switch (direction)
-                {
-                    case MoveableTileEntity.Direction.DOWN:
-                        if (position.x < HEIGHT - 1 && GetTile(position.x, position.y).GetSide().Equals(side))
-                        {
-                            ++position.x;
-                        }
-                        break;
+                positionDict[key] = value;
+                return false;
+            }
+            else
+            {
+                positionDict.Add(key, value);
+                return true;
+            }
+        }
 
-                    case MoveableTileEntity.Direction.UP:
-                        if (position.x > 0 && GetTile(position.x - 1, position.y).GetSide().Equals(side))
-                        {
-                            --position.x;
-                        }
-                        break;
+        private void UpdateTileEntityPosition(TileEntity tileEntity, Vector2Int from, Vector2Int to)
+        {
+            Tile fromTile = GetTile(from);
+            Tile toTile = GetTile(to);
 
-                    case MoveableTileEntity.Direction.LEFT:
-                        if (position.y > 0 && GetTile(position.x, position.y - 1).GetSide().Equals(side))
-                        {
-                            --position.y;
-                        }
-                        break;
+            if (fromTile.Equals(toTile))
+            {
+                // Nothing to do
+                return; 
+            }
 
-                    case MoveableTileEntity.Direction.RIGHT:
-                        if (position.y < WIDTH - 1 && GetTile(position.x, position.y + 1).GetSide().Equals(side))
-                        {
-                            ++position.y;
-                        }
-                        break;
-                }
+            fromTile.RemoveTileEntity(tileEntity);
+            // Place on new tile
+            toTile.AddTileEntity(tileEntity);
 
-                Tile newTile = boardArray[position.x, position.y];
+            // Update the entity's position
+            UpdateOrAddToPositionDictionary(tileEntity, to);
 
-                if (newTile != curTile)
-                {
-                    // Remove from old tile
-                    curTile.RemoveTileEntity(tileEntity);
-                    // Place on new tile
-                    newTile.AddTileEntity(tileEntity);
+            // Get or create EntityInfo
+            EntityInfo info = gameInfo.GetEntityInfoOrDefault(tileEntity.getUid(), new EntityInfo(tileEntity.getUid()));
+            info.position = to;
+            gameInfo.UpdateOrAddToEntityInfoDictionary(info);
+        }
 
-                    // Update the position
-                    if (positionDict.ContainsKey(tileEntity.getUid()))
-                    {
-                        positionDict[tileEntity.getUid()] = new Vector2Int(position.x, position.y);
-                    }
-                    else
-                    {
-                        positionDict.Add(tileEntity.getUid(), new Vector2Int(position.x, position.y));
-                    }
-
-                    // Already have info available! Update that
-                    if (gameInfo.entityInfos.ContainsKey(entityInfo.uid))
-                    {
-                        EntityInfo inf;
-                        gameInfo.entityInfos.TryGetValue(entityInfo.uid, out inf);
-                        inf.position = position;
-                        gameInfo.entityInfos[entityInfo.uid] = inf;
-                    }
-                    else
-                    {
-                        entityInfo.position = position;
-                        // No info available. Use this one.
-                        gameInfo.entityInfos.Add(entityInfo.uid, entityInfo);
-                    }
-                    gameInfo.wasUpdated = true;
-                }
+        public void Move(TileEntity tileEntity, TileEntityConstants.Direction direction)
+        {
+            Vector2Int curPosition;
+            if (positionDict.TryGetValue(tileEntity.getUid(), out curPosition))
+            {
+                Vector2Int newPosition = UpdatePosition(curPosition, direction);
+                UpdateTileEntityPosition(tileEntity, curPosition, newPosition);
             }
             else
             {
@@ -187,6 +170,42 @@ namespace MegaGame
             }
         }
 
+        private Vector2Int UpdatePosition(Vector2Int position, TileEntityConstants.Direction direction)
+        {
+            Tile curTile = GetTile(position); 
+            Tile.SIDE side = curTile.GetSide();
+            switch (direction)
+            {
+                case TileEntityConstants.Direction.DOWN:
+                    if (position.x < HEIGHT - 1 && GetTile(position.x, position.y).GetSide().Equals(side))
+                    {
+                        ++position.x;
+                    }
+                    break;
+
+                case TileEntityConstants.Direction.UP:
+                    if (position.x > 0 && GetTile(position.x - 1, position.y).GetSide().Equals(side))
+                    {
+                        --position.x;
+                    }
+                    break;
+
+                case TileEntityConstants.Direction.LEFT:
+                    if (position.y > 0 && GetTile(position.x, position.y - 1).GetSide().Equals(side))
+                    {
+                        --position.y;
+                    }
+                    break;
+
+                case TileEntityConstants.Direction.RIGHT:
+                    if (position.y < WIDTH - 1 && GetTile(position.x, position.y + 1).GetSide().Equals(side))
+                    {
+                        ++position.y;
+                    }
+                    break;
+            }
+            return position;
+        }
         // Update is called once per frame
         void Update()
         {
