@@ -106,6 +106,32 @@ namespace MegaGame
             return boardArray[row, col];
         }
 
+        // Returns entity's tile or null
+        public Tile GetTile(TileEntity tileEntity)
+        {
+            Vector2Int position = GetTileEntityPosition(tileEntity);
+            if (position == TileEntityConstants.UNDEFINED_POSITION)
+            {
+                return null;
+            }
+            else
+            {
+                return GetTile(position);
+            }
+        }
+
+        public Vector2Int GetTileEntityPosition(TileEntity tileEntity)
+        {
+            if (positionDict.ContainsKey(tileEntity.getUid()))
+            {
+                return positionDict[tileEntity.getUid()];
+            }
+            else
+            {
+                return TileEntityConstants.UNDEFINED_POSITION;
+            }
+        }
+
         public Tile GetTile(Vector2Int coords)
         {
             return boardArray[coords.x, coords.y];
@@ -156,7 +182,7 @@ namespace MegaGame
             gameInfo.UpdateOrAddToEntityInfoDictionary(info);
         }
 
-        public void Move(TileEntity tileEntity, TileEntityConstants.Direction direction)
+        public void Move(TileEntity tileEntity, Vector2Int direction)
         {
             Vector2Int curPosition;
             if (positionDict.TryGetValue(tileEntity.getUid(), out curPosition))
@@ -170,41 +196,38 @@ namespace MegaGame
             }
         }
 
-        private Vector2Int UpdatePosition(Vector2Int position, TileEntityConstants.Direction direction)
+        public bool IsOnBoard(Vector2Int position)
+        {
+            if (position.x < 0 || position.x >= HEIGHT
+                || position.y < 0 || position.y >= WIDTH)
+            {
+                return false;
+            }
+            return true;
+        }
+        private Vector2Int UpdatePosition(Vector2Int position, Vector2Int direction)
         {
             Tile curTile = GetTile(position); 
             Tile.SIDE side = curTile.GetSide();
-            switch (direction)
+
+            Vector2Int newPosition = position;
+            newPosition += direction;
+
+            // Make sure new position is still on the board
+            if (!IsOnBoard(newPosition))
             {
-                case TileEntityConstants.Direction.DOWN:
-                    if (position.x < HEIGHT - 1 && GetTile(position.x, position.y).GetSide().Equals(side))
-                    {
-                        ++position.x;
-                    }
-                    break;
-
-                case TileEntityConstants.Direction.UP:
-                    if (position.x > 0 && GetTile(position.x - 1, position.y).GetSide().Equals(side))
-                    {
-                        --position.x;
-                    }
-                    break;
-
-                case TileEntityConstants.Direction.LEFT:
-                    if (position.y > 0 && GetTile(position.x, position.y - 1).GetSide().Equals(side))
-                    {
-                        --position.y;
-                    }
-                    break;
-
-                case TileEntityConstants.Direction.RIGHT:
-                    if (position.y < WIDTH - 1 && GetTile(position.x, position.y + 1).GetSide().Equals(side))
-                    {
-                        ++position.y;
-                    }
-                    break;
+                // not on board... do not update position
+                return position;
             }
-            return position;
+            
+
+            Tile newTile = GetTile(newPosition);
+            if (side != newTile.GetSide())
+            {
+                // we are not on the right side... revert!
+                return position;
+            }
+            return newPosition;
         }
         // Update is called once per frame
         void Update()

@@ -41,6 +41,7 @@ namespace MegaGame
                     GameObject player1GO = PhotonNetwork.Instantiate(this.PlayerPrefab.name, Player1TempPos.position, Player1TempPos.rotation);
                     player1GO.name = "Player1";
                     PlayerTileEntity pte = player1GO.GetComponent<PlayerTileEntity>();
+                    pte.SetBoard(MyGameBoard);
                     localPlayer = pte;
                     pte.setUid(Guid.NewGuid().ToString()); //random int guid
                     if (pte != null)
@@ -56,6 +57,7 @@ namespace MegaGame
                     GameObject player2GO = PhotonNetwork.Instantiate(this.PlayerPrefab.name, Player2TempPos.position, Player2TempPos.rotation);
                     player2GO.name = "Player2";
                     PlayerTileEntity pte = player2GO.GetComponent<PlayerTileEntity>();
+                    pte.SetBoard(MyGameBoard);
                     localPlayer = pte;
                     pte.setUid(Guid.NewGuid().ToString()); //random int guid
                     if (pte != null)

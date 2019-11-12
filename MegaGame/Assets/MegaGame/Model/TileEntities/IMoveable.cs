@@ -6,6 +6,6 @@ namespace MegaGame
 {
     public interface IMoveable
     {
-        void DoMove(TileEntityConstants.Direction direction);
+        void DoMove(Vector2Int direction);
     }
 }

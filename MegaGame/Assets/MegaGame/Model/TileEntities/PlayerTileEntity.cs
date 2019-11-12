@@ -9,13 +9,21 @@ namespace MegaGame
     {
         public float Cooldown_time = 0.1f;
 
+        private Blaster blaster;
+
+        public Blaster GetBlaster()
+        {
+            return blaster;
+        }
+
+   
         //never getting called right now
         public PlayerTileEntity(GameBoard gb, string name, float maxHealth, bool isPlayer1) : base(gb, name, maxHealth)
         {
             
         }
 
-        public void DoMove(TileEntityConstants.Direction direction)
+        public void DoMove(Vector2Int direction)
         {
             GameManager.Instance.MyGameBoard.Move(this, direction);
             cooldownTimer = Cooldown_time;
@@ -26,32 +34,43 @@ namespace MegaGame
             // Do nothing
         }
 
+        void Start()
+        {
+            blaster = new Blaster(this);
+            this.maxHealth = 10f;
+            this.health = this.maxHealth;
+        }
+
         // Update is called once per frame
         void Update()
         {
-            handleMove();
+            HandleMove();
         }
 
         private float cooldownTimer;
-        private void handleMove()
+        private void HandleMove()
         {
             if (cooldownTimer <= 0 && photonView.IsMine)
             {
                 if (Input.GetKeyDown(KeyCode.W))
                 {
-                    DoMove(TileEntityConstants.Direction.UP);
+                    DoMove(TileEntityConstants.DirectionVectors.UP);
                 }
                 else if (Input.GetKeyDown(KeyCode.D))
                 {
-                    DoMove(TileEntityConstants.Direction.RIGHT);
+                    DoMove(TileEntityConstants.DirectionVectors.RIGHT);
                 }
                 else if (Input.GetKeyDown(KeyCode.A))
                 {
-                    DoMove(TileEntityConstants.Direction.LEFT);
+                    DoMove(TileEntityConstants.DirectionVectors.LEFT);
                 }
                 else if (Input.GetKeyDown(KeyCode.S))
                 {
-                    DoMove(TileEntityConstants.Direction.DOWN);
+                    DoMove(TileEntityConstants.DirectionVectors.DOWN);
+                }
+                else if (Input.GetKeyDown(KeyCode.Mouse0))
+                {
+                    this.blaster.DoShoot();
                 }
             }
             else

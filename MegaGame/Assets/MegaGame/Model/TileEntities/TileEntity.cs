@@ -13,10 +13,10 @@ namespace MegaGame
         protected string uid;
 
         [SerializeField]
-        protected float maxHealth = 0.0f;
+        protected float maxHealth = 10.0f;
 
         [SerializeField]
-        protected float health = 0.0f;
+        protected float health = 10.0f;
 
         //public override bool Equals(object other)
         //{
@@ -41,6 +41,16 @@ namespace MegaGame
         public void setUid(string newUid)
         {
             uid = newUid;
+        }
+
+        public GameBoard GetBoard()
+        {
+            return this.gameBoard;
+        }
+
+        public void SetBoard(GameBoard gb)
+        {
+            this.gameBoard = gb;
         }
 
         public TileEntity(GameBoard gb, string name, float maxHealth)
@@ -93,6 +103,7 @@ namespace MegaGame
          ***/
         public float TakeDamage(float amount)
         {
+            Debug.Log(this.GetName() + " health before being shot for amount " + amount + " is " + this.health);
             this.health -= amount;
             if (this.health < 0)
             {
