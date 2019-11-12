@@ -71,13 +71,13 @@ namespace MegaGame
 
             foreach (TileEntity entity in value.GetEntities())
             {
-                if (positionDict.ContainsKey(entity.getUid()))
+                if (positionDict.ContainsKey(entity.GetUid()))
                 {
-                    positionDict[entity.getUid()] = position;
+                    positionDict[entity.GetUid()] = position;
                 }
                 else
                 {
-                    positionDict.Add(entity.getUid(), position);
+                    positionDict.Add(entity.GetUid(), position);
                 }
             }
         }
@@ -91,13 +91,13 @@ namespace MegaGame
             }
             boardArray[row, column].AddEntity(tileEntity);
 
-            if (positionDict.ContainsKey(tileEntity.getUid()))
+            if (positionDict.ContainsKey(tileEntity.GetUid()))
             {
-                positionDict[tileEntity.getUid()] = new Vector2Int(row, column);
+                positionDict[tileEntity.GetUid()] = new Vector2Int(row, column);
             }
             else
             {
-                positionDict.Add(tileEntity.getUid(), new Vector2Int(row, column));
+                positionDict.Add(tileEntity.GetUid(), new Vector2Int(row, column));
             }
         }
 
@@ -122,9 +122,9 @@ namespace MegaGame
 
         public Vector2Int GetTileEntityPosition(TileEntity tileEntity)
         {
-            if (positionDict.ContainsKey(tileEntity.getUid()))
+            if (positionDict.ContainsKey(tileEntity.GetUid()))
             {
-                return positionDict[tileEntity.getUid()];
+                return positionDict[tileEntity.GetUid()];
             }
             else
             {
@@ -139,7 +139,7 @@ namespace MegaGame
 
         private bool UpdateOrAddToPositionDictionary(TileEntity te, Vector2Int value)
         {
-            return UpdateOrAddToPositionDictionary(te.getUid(), value);
+            return UpdateOrAddToPositionDictionary(te.GetUid(), value);
         }
 
         // Will return true if added a new entry, false if updated existing one
@@ -177,7 +177,7 @@ namespace MegaGame
             UpdateOrAddToPositionDictionary(tileEntity, to);
 
             // Get or create EntityInfo
-            EntityInfo info = gameInfo.GetEntityInfoOrDefault(tileEntity.getUid(), new EntityInfo(tileEntity.getUid()));
+            EntityInfo info = gameInfo.GetEntityInfoOrDefault(tileEntity.GetUid(), new EntityInfo(tileEntity.GetUid()));
             info.position = to;
             gameInfo.UpdateOrAddToEntityInfoDictionary(info);
         }
@@ -185,7 +185,7 @@ namespace MegaGame
         public void Move(TileEntity tileEntity, Vector2Int direction)
         {
             Vector2Int curPosition;
-            if (positionDict.TryGetValue(tileEntity.getUid(), out curPosition))
+            if (positionDict.TryGetValue(tileEntity.GetUid(), out curPosition))
             {
                 Vector2Int newPosition = UpdatePosition(curPosition, direction);
                 UpdateTileEntityPosition(tileEntity, curPosition, newPosition);
@@ -273,7 +273,7 @@ namespace MegaGame
                     PlayerTileEntity[] players = GameObject.FindObjectsOfType<PlayerTileEntity>();
                     foreach (var p in players)
                     {
-                        if (p.getUid() == uid)
+                        if (p.GetUid() == uid)
                         {
                             AddEntityToTile(i.position.x, i.position.y, p);
                         }

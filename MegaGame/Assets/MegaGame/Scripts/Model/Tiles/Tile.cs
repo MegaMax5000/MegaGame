@@ -47,7 +47,7 @@ namespace MegaGame
         {
             foreach (var te in tileEntities)
             {
-                if (te.getUid() == uid) return tileEntities.Remove(te);
+                if (te.GetUid() == uid) return tileEntities.Remove(te);
             }
 
             return false;
@@ -83,7 +83,7 @@ namespace MegaGame
         {
             foreach (var te in tileEntities)
             {
-                if (te.getUid() == uid) return te;
+                if (te.GetUid() == uid) return te;
             }
 
             return null;

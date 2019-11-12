@@ -69,6 +69,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uid: 
   maxHealth: 0
+  health: 0
   Cooldown_time: 0.05
 --- !u!1 &3653889036751580946
 GameObject:

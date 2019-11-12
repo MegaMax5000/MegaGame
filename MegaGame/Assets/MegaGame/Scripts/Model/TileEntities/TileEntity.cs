@@ -33,12 +33,12 @@ namespace MegaGame
         //    return (int)hashedValue;
         //}
 
-        public string getUid()
+        public string GetUid()
         {
             return uid;
         }
 
-        public void setUid(string newUid)
+        public void SetUid(string newUid)
         {
             uid = newUid;
         }

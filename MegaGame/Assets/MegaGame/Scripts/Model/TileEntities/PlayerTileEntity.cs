@@ -84,6 +84,8 @@ namespace MegaGame
             {
                 // We own this player: send the others our data
                 stream.SendNext(uid);
+                stream.SendNext(health);
+                Debug.Log(GetUid() + " sending health : " + health);
 
                 GameInfo gi = GameManager.Instance.MyGameBoard.GetGameInfo();
                 if (gi.wasUpdated)
@@ -101,7 +103,8 @@ namespace MegaGame
             else
             {
                 // Network player, recieve data
-                setUid((string)stream.ReceiveNext());
+                SetUid((string)stream.ReceiveNext());
+                health = (float)stream.ReceiveNext();
 
                 string r = (string)stream.ReceiveNext();
                 if (r != "")

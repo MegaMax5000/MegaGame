@@ -46,7 +46,7 @@ namespace MegaGame
                     PlayerTileEntity pte = player1GO.GetComponent<PlayerTileEntity>();
                     pte.SetBoard(MyGameBoard);
                     localPlayer = pte;
-                    pte.setUid(Guid.NewGuid().ToString()); //random int guid
+                    pte.SetUid(Guid.NewGuid().ToString()); //random int guid
                     if (pte != null)
                     {
                         this.MyGameBoard.AddEntityToTile(1, 1, pte);
@@ -62,7 +62,7 @@ namespace MegaGame
                     PlayerTileEntity pte = player2GO.GetComponent<PlayerTileEntity>();
                     pte.SetBoard(MyGameBoard);
                     localPlayer = pte;
-                    pte.setUid(Guid.NewGuid().ToString()); //random int guid
+                    pte.SetUid(Guid.NewGuid().ToString()); //random int guid
                     if (pte != null)
                     {
                         this.MyGameBoard.AddEntityToTile(1, 4, pte);
