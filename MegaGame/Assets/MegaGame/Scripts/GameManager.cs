@@ -24,6 +24,9 @@ namespace MegaGame
 
         private PlayerTileEntity localPlayer;
 
+        ///Called by Unity when the application is closed.Tries to disconnect.
+        protected void OnApplicationQuit() { PhotonNetwork.Disconnect(); }
+
         void Start()
         {
             Instance = this;
