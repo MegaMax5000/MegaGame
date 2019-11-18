@@ -5,35 +5,36 @@ using UnityEngine;
 
 namespace MegaGame
 {
-    public class GameInfo
+    public class GameInfo : Info
     {
         public Dictionary<string, EntityInfo> entityInfos = new Dictionary<string, EntityInfo>();
         public bool wasUpdated = false;
 
-        // int the form of (v1,v2,v3),(v1,v2,v3),...
-        public string Stringify()
+        protected override void RegisterFieldsToSerialize()
         {
-            string ret = "";
-            foreach (EntityInfo v in entityInfos.Values)
+            beginRegistration();
+            foreach (EntityInfo inf in entityInfos.Values)
             {
-                ret += v.Stringify() + '$';
+                register(inf);
             }
-            if (ret.EndsWith("$"))
-            {
-                ret = ret.Substring(0, ret.Length - 1);
-            }
-            return ret;
         }
 
-        public static GameInfo fromString(string s)
+        public GameInfo()
+        {
+            this.openingDelim = SerializationConstants.GAME_INFO_START;
+            this.closingDelim = SerializationConstants.GAME_INFO_END;
+            this.delim = SerializationConstants.GAME_INFO_DELIM;
+        }
+
+        public static GameInfo FromString(string s)
         {
             GameInfo gi = new GameInfo();
 
-            string[] strs = s.Split('$');
+            string[] strs = GetValues(s, SerializationConstants.GAME_INFO_DELIM);
 
             for (int i = 0; i < strs.Length; ++i)
             {
-                EntityInfo info = EntityInfo.fromString(strs[i]);
+                EntityInfo info = EntityInfo.FromString(strs[i], SerializationConstants.ENTITY_DELIM);
 
                 if (info != null)
                 {

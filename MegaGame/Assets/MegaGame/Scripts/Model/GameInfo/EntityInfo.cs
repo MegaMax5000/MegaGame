@@ -6,39 +6,46 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
-public class EntityInfo
+namespace MegaGame
 {
-    public Vector2Int position;
-    public string uid;
-
-    int health;
-
-    // Generates (uid,x,y)
-    public string Stringify()
+    public class EntityInfo : Info
     {
-        return "(" + uid + "," + position.x + "," + position.y + ")";
-    }
+        public Vector2Int position;
+        public string uid;
 
-    // s will be in the form of (uid,x,y)
-    public static EntityInfo fromString(string s)
-    {
-        Debug.Log("Recieved entity info " + s);
-        if (s.Length < 1)
+        int health;
+
+        protected override void RegisterFieldsToSerialize()
         {
-            return null;
+            beginRegistration();
+            register(uid);
+            register(position.x);
+            register(position.y);
         }
-        // strip off parenthesis 
-        s = s.Substring(1, s.Length - 2);
-        string[] strs = s.Split(',');
-        string id = strs[0];
-        EntityInfo ei = new EntityInfo(id);
-        ei.position.x = Int32.Parse(strs[1]);
-        ei.position.y = Int32.Parse(strs[2]);
-        return ei;
-    }
 
-    public EntityInfo(string uid)
-    {
-        this.uid = uid;
+        // s will be in the form of (uid,x,y)
+        public static EntityInfo FromString(string s, char delim)
+        {
+            Debug.Log("Recieved entity info " + s);
+            if (s.Length < 1)
+            {
+                return null;
+            }
+
+            string[] args = GetValues(s, delim);
+            string id = args[0];
+            EntityInfo ei = new EntityInfo(id);
+            ei.position.x = Int32.Parse(args[1]);
+            ei.position.y = Int32.Parse(args[2]);
+            return ei;
+        }
+
+        public EntityInfo(string uid)
+        {
+            this.uid = uid;
+            this.openingDelim = SerializationConstants.ENTITY_INFO_START;
+            this.closingDelim = SerializationConstants.ENTITY_INFO_END;
+            this.delim = SerializationConstants.ENTITY_DELIM;
+        }
     }
 }

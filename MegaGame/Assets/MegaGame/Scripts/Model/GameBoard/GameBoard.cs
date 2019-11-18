@@ -180,6 +180,7 @@ namespace MegaGame
             EntityInfo info = gameInfo.GetEntityInfoOrDefault(tileEntity.GetUid(), new EntityInfo(tileEntity.GetUid()));
             info.position = to;
             gameInfo.UpdateOrAddToEntityInfoDictionary(info);
+            Debug.Log(gameInfo.ToString());
         }
 
         public void Move(TileEntity tileEntity, Vector2Int direction)

@@ -91,7 +91,7 @@ namespace MegaGame
                 if (gi.wasUpdated)
                 {
                     // We own this player: send the others our data
-                    string giString = gi.Stringify();
+                    string giString = gi.ToString();
                     stream.SendNext(giString);
                     gi = new GameInfo();
                 }
@@ -109,7 +109,8 @@ namespace MegaGame
                 string r = (string)stream.ReceiveNext();
                 if (r != "")
                 {
-                    GameInfo gi = GameInfo.fromString(r);
+                    Debug.Log(r);
+                    GameInfo gi = GameInfo.FromString(r);
                     GameManager.Instance.MyGameBoard.ProcessNewGameInfo(gi);
                 }
             }
