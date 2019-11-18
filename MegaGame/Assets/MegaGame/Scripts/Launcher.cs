@@ -24,6 +24,8 @@ namespace MegaGame
         [Tooltip("The UI Label to inform the user that the connection is in progress")]
         [SerializeField]
         private GameObject progressLabel = null;
+
+        private TestingRoom roomToJoin = TestingRoom.Small;
         
         #endregion
 
@@ -97,13 +99,22 @@ namespace MegaGame
             Debug.Log("MegaGame/Launcher: OnJoinedRoom() called by PUN. Now this client is in a room.");
 
             // #Critical: We only load if we are the first player, else we rely on `PhotonNetwork.AutomaticallySyncScene` to sync our instance scene.
-            if (/*PhotonNetwork.CurrentRoom.PlayerCount == 1*/true)
+            if (PhotonNetwork.CurrentRoom.PlayerCount == 1)
             {
-                Debug.Log("We load the 'RoomFor2'");
+                if (roomToJoin == TestingRoom.Small)
+                {
+                    Debug.Log("We load the 'SmallRoom'");
 
-                // #Critical
-                // Load the Room Level.
-                PhotonNetwork.LoadLevel("RoomFor2");
+                    // Load the Small Level.
+                    PhotonNetwork.LoadLevel("SmallRoom");
+                }
+                else if (roomToJoin == TestingRoom.Medium)
+                {
+                    Debug.Log("We load the 'MediumRoom'");
+
+                    // Load the Medium Level.
+                    PhotonNetwork.LoadLevel("MediumRoom");
+                }
             }
         }
 
@@ -111,13 +122,20 @@ namespace MegaGame
 
         #region Public Methods
 
+        public enum TestingRoom {
+            Small = 0,
+            Medium = 1,
+        }
+
         /// <summary>
         /// Start the connection process
         /// - If already connected, we attempt joining a random room
         /// - If not yet connected, Connect this application instance to Photon Cloud Network
         /// </summary>
-        public void Connect()
+        public void Connect(int room)
         {
+            roomToJoin = (TestingRoom) room;
+
             // keep track of the will to join a room, because when we come back from the game we will get a callback that we are connected, so we need to know what to do then
             isConnecting = true;
 

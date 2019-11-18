@@ -39,34 +39,15 @@ namespace MegaGame
             {
                 if (PhotonNetwork.CurrentRoom.PlayerCount == 1)
                 {
-                    Debug.LogFormat("We are Instantiating LocalPlayer from {0}, they will be player 1", SceneManagerHelper.ActiveSceneName);
-                    // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
-                    GameObject player1GO = PhotonNetwork.Instantiate(this.PlayerPrefab.name, Player1TempPos.position, Player1TempPos.rotation);
-                    player1GO.name = "Player1";
-                    PlayerTileEntity pte = player1GO.GetComponent<PlayerTileEntity>();
-                    pte.SetBoard(MyGameBoard);
-                    localPlayer = pte;
-                    pte.SetUid(Guid.NewGuid().ToString()); //random int guid
-                    if (pte != null)
-                    {
-                        this.MyGameBoard.AddEntityToTile(1, 1, pte);
-                    }
-
+                    int initialRow = MyGameBoard.GameBoardHeight / 2 + (MyGameBoard.GameBoardHeight % 2 - 1);
+                    int initialWidth = MyGameBoard.GameBoardWidth / 4 + ((MyGameBoard.GameBoardWidth / 2) % 2 - 1);
+                    SetupLocalPlayer("Player1", initialRow, initialWidth);
                 }
                 else
                 {
-                    Debug.LogFormat("We are Instantiating LocalPlayer from {0}, they will be player 2", SceneManagerHelper.ActiveSceneName);
-                    // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
-                    GameObject player2GO = PhotonNetwork.Instantiate(this.PlayerPrefab.name, Player2TempPos.position, Player2TempPos.rotation);
-                    player2GO.name = "Player2";
-                    PlayerTileEntity pte = player2GO.GetComponent<PlayerTileEntity>();
-                    pte.SetBoard(MyGameBoard);
-                    localPlayer = pte;
-                    pte.SetUid(Guid.NewGuid().ToString()); //random int guid
-                    if (pte != null)
-                    {
-                        this.MyGameBoard.AddEntityToTile(1, 4, pte);
-                    }
+                    int initialRow = MyGameBoard.GameBoardHeight / 2 + (MyGameBoard.GameBoardHeight % 2 - 1);
+                    int initialWidth = MyGameBoard.GameBoardWidth - 1 - (MyGameBoard.GameBoardWidth / 4 + ((MyGameBoard.GameBoardWidth / 2) % 2 - 1));
+                    SetupLocalPlayer("Player2", initialRow, initialWidth);
                 }
             }
         }
@@ -112,6 +93,25 @@ namespace MegaGame
         {
             PhotonNetwork.LeaveRoom();
             PhotonNetwork.Destroy(localPlayer.gameObject);
+        }
+
+        private void SetupLocalPlayer(string name, int row, int col)
+        {
+            Debug.LogFormat("We are Instantiating LocalPlayer from {0}, they will be " + name, SceneManagerHelper.ActiveSceneName);
+
+            // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
+            GameObject playerGO = PhotonNetwork.Instantiate(this.PlayerPrefab.name, Player1TempPos.position, Player1TempPos.rotation);
+            playerGO.name = name;
+            PlayerTileEntity pte = playerGO.GetComponent<PlayerTileEntity>();
+            pte.SetBoard(MyGameBoard);
+            localPlayer = pte;
+            pte.SetUid(Guid.NewGuid().ToString()); //random int guid
+
+            //init player tile
+            if (pte != null)
+            {
+                this.MyGameBoard.AddEntityToTile(row, col, pte);
+            }
         }
 
         private void LoadArena()

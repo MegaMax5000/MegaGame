@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/MegaGame/Scenes/Launcher.unity
     guid: 0f741cff4705c5f45be68ee3414e81b4
   - enabled: 1
-    path: Assets/MegaGame/Scenes/RoomFor2.unity
+    path: Assets/MegaGame/Scenes/SmallRoom.unity
     guid: 56288d3ec8ad8d0499273d721b4ae79e
+  - enabled: 1
+    path: Assets/MegaGame/Scenes/MediumRoom.unity
+    guid: 84fcc621f143f3440b55e075925583af
   m_configObjects: {}

@@ -7,21 +7,28 @@ namespace MegaGame
 {
     public class GameBoard : MonoBehaviourPunCallbacks
     {
-        public static int HEIGHT = 3;
-        public static int WIDTH = 6;
+        public int GameBoardHeight { get { return height; } }
+        public int GameBoardWidth { get { return width;  } }
+
+        [SerializeField]
+        private int height = 3;
+        [SerializeField]
+        private int width = 6;
 
         protected GameInfo gameInfo = new GameInfo();
         public GameInfo GetGameInfo() { return gameInfo; }
 
         private Dictionary<string, Vector2Int> positionDict = new Dictionary<string, Vector2Int>();
         [SerializeField]
-        private Tile[,] boardArray = new Tile[HEIGHT, WIDTH];
+        private Tile[,] boardArray;
 
         public List<GameObject> initTileList;
 
         // Start is called before the first frame update
         void Awake()
         {
+            boardArray = new Tile[height, width];
+
             InitTiles();
         }
 
@@ -30,13 +37,18 @@ namespace MegaGame
             foreach (var tile in initTileList)
             {
                 string name = tile.name;
-                int row = (int)(name[4] - '0');
-                int column = (int)(name[5] - '0');
+                string coords = name.Split(' ')[1];
+
+                string rowstring = coords.Split(',')[0];
+                string columnstring = coords.Split(',')[1];
+
+                int row = int.Parse(rowstring);
+                int column = int.Parse(columnstring);
 
                 Tile t = tile.GetComponent<NeutralTile>();
 
                 Tile.SIDE side = Tile.SIDE.RIGHT;
-                if (column < WIDTH / 2)
+                if (column < width / 2)
                 {
                     side = Tile.SIDE.LEFT;
                 }
@@ -45,23 +57,6 @@ namespace MegaGame
                 t.gameBoard = this;
                 SetTileValue(row, column, t);
             }
-            //for (int row = 0; row < HEIGHT; ++row)
-            //{
-            //    for (int col = 0; col < WIDTH; ++col)
-            //    {
-            //        int index = row * HEIGHT + col;
-
-            //        Tile.SIDE side = Tile.SIDE.RIGHT;
-            //        if (col < WIDTH / 2)
-            //        {
-            //            side = Tile.SIDE.LEFT;
-            //        }
-            //        Tile tile = initTileList[index].GetComponent<NeutralTile>();
-            //        tile.SetSide(side);
-            //        tile.gameBoard = this;
-            //        SetTileValue(row, col, tile);
-            //    }
-            //}
         }
 
         public void SetTileValue(int row, int column, Tile value)
@@ -84,7 +79,7 @@ namespace MegaGame
 
         public void AddEntityToTile(int row, int column, TileEntity tileEntity)
         {
-            if (row > HEIGHT || column > WIDTH || row < 0 || column < 0)
+            if (row > height || column > width || row < 0 || column < 0)
             {
                 Debug.Log("[GameBoard] Cannot add entity to tile: (" + row + "," + column + ")");
                 return;
@@ -199,8 +194,8 @@ namespace MegaGame
 
         public bool IsOnBoard(Vector2Int position)
         {
-            if (position.x < 0 || position.x >= HEIGHT
-                || position.y < 0 || position.y >= WIDTH)
+            if (position.x < 0 || position.x >= height
+                || position.y < 0 || position.y >= width)
             {
                 return false;
             }
@@ -238,9 +233,9 @@ namespace MegaGame
 
         private void TickAllTiles()
         {
-            for (int i = 0; i < HEIGHT; ++i)
+            for (int i = 0; i < height; ++i)
             {
-                for (int j = 0; j < WIDTH; ++j)
+                for (int j = 0; j < width; ++j)
                 {
                     boardArray[i, j].DoTick();
                 }
