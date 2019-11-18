@@ -26,7 +26,7 @@ namespace MegaGame
         private GameObject progressLabel = null;
 
         private TestingRoom roomToJoin = TestingRoom.Small;
-        
+
         #endregion
 
         #region Private Fields
@@ -155,6 +155,14 @@ namespace MegaGame
                 PhotonNetwork.ConnectUsingSettings();
             }
         }
+
+        public static void Quit()
+        {
+            Application.Quit();
+        }
+
+        ///Called by Unity when the application is closed.Tries to disconnect.
+        protected void OnApplicationQuit() { PhotonNetwork.Disconnect(); }
 
         #endregion
     }
