@@ -156,7 +156,7 @@ namespace MegaGame
             }
         }
 
-        public static void Quit()
+        public void Quit()
         {
             Application.Quit();
         }

@@ -12,18 +12,18 @@ namespace MegaGame
     {
         public Vector2Int position;
         public string uid;
-
-        int health;
+        public int health;
 
         protected override void RegisterFieldsToSerialize()
         {
             beginRegistration();
             register(uid);
+            register(health);
             register(position.x);
             register(position.y);
         }
 
-        // s will be in the form of (uid,x,y)
+        // s will be in the form of (uid,health,x,y)
         public static EntityInfo FromString(string s, char delim)
         {
             Debug.Log("Recieved entity info " + s);
@@ -35,8 +35,9 @@ namespace MegaGame
             string[] args = GetValues(s, delim);
             string id = args[0];
             EntityInfo ei = new EntityInfo(id);
-            ei.position.x = Int32.Parse(args[1]);
-            ei.position.y = Int32.Parse(args[2]);
+            ei.health = Int32.Parse(args[1]);
+            ei.position.x = Int32.Parse(args[2]);
+            ei.position.y = Int32.Parse(args[3]);
             return ei;
         }
 

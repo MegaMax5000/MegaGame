@@ -17,6 +17,7 @@ namespace MegaGame
 
         protected GameInfo gameInfo = new GameInfo();
         public GameInfo GetGameInfo() { return gameInfo; }
+        public void ResetGameInfo() { gameInfo = new GameInfo(); }
 
         private Dictionary<string, Vector2Int> positionDict = new Dictionary<string, Vector2Int>();
         [SerializeField]
@@ -172,13 +173,22 @@ namespace MegaGame
             UpdateOrAddToPositionDictionary(tileEntity, to);
 
             // Get or create EntityInfo
-            EntityInfo info = gameInfo.GetEntityInfoOrDefault(tileEntity.GetUid(), new EntityInfo(tileEntity.GetUid()));
+            EntityInfo info = gameInfo.GetEntityInfoOrDefault(tileEntity.GetUid(), CreateBaseEntityInfoFromTileEntity(tileEntity));
             info.position = to;
             gameInfo.UpdateOrAddToEntityInfoDictionary(info);
             Debug.Log(gameInfo.ToString());
         }
 
-        public void Move(TileEntity tileEntity, Vector2Int direction)
+        private EntityInfo CreateBaseEntityInfoFromTileEntity(TileEntity te)
+        {
+            EntityInfo toReturn = new EntityInfo(te.GetUid());
+            toReturn.health = te.Health;
+            toReturn.position = positionDict[te.GetUid()];
+
+            return toReturn;
+        }
+
+        public void DoMoveTileEntity(TileEntity tileEntity, Vector2Int direction)
         {
             Vector2Int curPosition;
             if (positionDict.TryGetValue(tileEntity.GetUid(), out curPosition))
@@ -190,6 +200,15 @@ namespace MegaGame
             {
                 Debug.Log("[GameBoard] Failed to move tileEntity... not in dictionary!");
             }
+        }
+
+        public void DoDamageToTileEntity(TileEntity te, int damage)
+        {
+            int damageDealt = te.TakeDamage(damage);
+            Debug.Log(te.GetName() + " was shot for " + damageDealt + " damage ");
+
+            EntityInfo info = gameInfo.GetEntityInfoOrDefault(te.GetUid(), CreateBaseEntityInfoFromTileEntity(te));
+            gameInfo.UpdateOrAddToEntityInfoDictionary(info);
         }
 
         public bool IsOnBoard(Vector2Int position)
@@ -242,12 +261,16 @@ namespace MegaGame
             }
         }
 
+        // processes game info relayed from the player. 
         public void ProcessNewGameInfo(GameInfo info)
         {
             foreach (EntityInfo i in info.entityInfos.Values)
             {
                 string uid = i.uid;
-                
+
+                TileEntity te = GetTileEntityFromUID(uid);
+                UpdateTileEntityFromNewGameInfo(te, i);
+
                 if (positionDict.ContainsKey(uid))
                 {
                     Vector2Int oldPos = positionDict[uid];
@@ -260,21 +283,50 @@ namespace MegaGame
                         Tile newTile = GetTile(newPos.x, newPos.y);
                         Tile oldTile = GetTile(oldPos.x, oldPos.y);
 
-                        newTile.AddTileEntity(oldTile.GetEntity(uid));
+                        newTile.AddTileEntity(te);
                         oldTile.RemoveTileEntity(uid);
                     }
                 }
                 else
                 {
-                    PlayerTileEntity[] players = GameObject.FindObjectsOfType<PlayerTileEntity>();
-                    foreach (var p in players)
+                    if (te != null)
                     {
-                        if (p.GetUid() == uid)
-                        {
-                            AddEntityToTile(i.position.x, i.position.y, p);
-                        }
+                        AddEntityToTile(i.position.x, i.position.y, te);
                     }
                 }
+            }
+        }
+
+        private TileEntity GetTileEntityFromUID(string uid)
+        {
+            TileEntity toReturn = null;
+
+            TileEntity[] existingTileEntities = GameObject.FindObjectsOfType<TileEntity>();
+            foreach (var te in existingTileEntities)
+            {
+                if (te.GetUid() == uid)
+                {
+                    toReturn = te;
+                }
+                else if (te.GetUid() == "")
+                {
+                    te.SetUid(uid);
+                    toReturn = te;
+                }
+            }
+
+            return toReturn;
+        }
+
+        private void UpdateTileEntityFromNewGameInfo(TileEntity tileEntity, EntityInfo entityInfo)
+        {
+            if (tileEntity.MyTileEntityType == TileEntity.TileEntityType.Player)
+            {
+                PlayerTileEntity p = (PlayerTileEntity)tileEntity;
+
+                //calculate and distribute incoming damage
+                int damageToTake = p.Health - entityInfo.health;
+                p.TakeDamage(damageToTake);
             }
         }
     }

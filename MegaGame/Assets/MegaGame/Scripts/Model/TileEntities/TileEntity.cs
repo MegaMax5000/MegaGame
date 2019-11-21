@@ -13,10 +13,10 @@ namespace MegaGame
         protected string uid;
 
         [SerializeField]
-        protected float maxHealth = 10.0f;
+        protected int maxHealth = 10;
 
         [SerializeField]
-        protected float health = 10.0f;
+        public int Health { get; protected set; }
 
         //public override bool Equals(object other)
         //{
@@ -32,6 +32,15 @@ namespace MegaGame
         //    }
         //    return (int)hashedValue;
         //}
+
+        public enum TileEntityType
+        {
+            Player = 0,
+            Damage = 1,
+            Wall = 2, //temp, not sure if this will exist
+        }
+
+        public TileEntityType MyTileEntityType { get; protected set; }
 
         public string GetUid()
         {
@@ -53,12 +62,13 @@ namespace MegaGame
             this.gameBoard = gb;
         }
 
-        public TileEntity(GameBoard gb, string name, float maxHealth)
+        public TileEntity(GameBoard gb, string name, int maxHealth, TileEntityType tileEntityType)
         {
             this.name = name;
             this.maxHealth = maxHealth;
             this.gameBoard = gb;
             this.uid = System.Guid.NewGuid().ToString();
+            this.MyTileEntityType = tileEntityType;
         }
 
         // Start is called before the first frame update
@@ -101,14 +111,14 @@ namespace MegaGame
          * go below 0, we reset this.health to 0 and return amount of damage that was actually
          * applied.
          ***/
-        public float TakeDamage(float amount)
+        public int TakeDamage(int amount)
         {
-            Debug.Log(this.GetName() + " health before being shot for amount " + amount + " is " + this.health);
-            this.health -= amount;
-            if (this.health < 0)
+            Debug.Log(this.GetName() + " health before being shot for amount " + amount + " is " + this.Health);
+            this.Health -= amount;
+            if (this.Health < 0)
             {
-                float surplusDamage = this.health * -1;
-                this.health = 0;
+                int surplusDamage = this.Health * -1;
+                this.Health = 0;
                 return amount - surplusDamage;
             }
 

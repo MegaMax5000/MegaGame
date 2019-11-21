@@ -7,8 +7,10 @@ namespace MegaGame
 {
     public class GameInfo : Info
     {
+        // k: uid, v: EntityInfo
         public Dictionary<string, EntityInfo> entityInfos = new Dictionary<string, EntityInfo>();
-        public bool wasUpdated = false;
+
+        public bool WasUpdated = false;
 
         protected override void RegisterFieldsToSerialize()
         {
@@ -24,6 +26,8 @@ namespace MegaGame
             this.openingDelim = SerializationConstants.GAME_INFO_START;
             this.closingDelim = SerializationConstants.GAME_INFO_END;
             this.delim = SerializationConstants.GAME_INFO_DELIM;
+
+            WasUpdated = false;
         }
 
         public static GameInfo FromString(string s)
@@ -51,7 +55,7 @@ namespace MegaGame
 
         public bool UpdateOrAddToEntityInfoDictionary(EntityInfo value)
         {
-            wasUpdated = true;
+            WasUpdated = true;
             return UpdateOrAddToEntityInfoDictionary(value.uid, value);
         }
 

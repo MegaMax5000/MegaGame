@@ -6,8 +6,8 @@ namespace MegaGame
 {
     public abstract class DamageTileEntity : TileEntity
     {
-        protected float baseDamage;
-        public DamageTileEntity(GameBoard gb, string name, float maxHealth) : base(gb, name, maxHealth)
+        protected int baseDamage;
+        public DamageTileEntity(GameBoard gb, string name, int maxHealth) : base(gb, name, maxHealth, TileEntityType.Damage)
         {
 
         }

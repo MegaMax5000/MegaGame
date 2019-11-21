@@ -7,7 +7,7 @@ namespace MegaGame
     public class Blaster : Accessory
     {
         protected int baseDamage = 1;
-        protected int shootRange = 6;
+        protected int shootRange = 12;
 
         public Blaster(TileEntity parent) : base(parent) { }
 
@@ -42,11 +42,10 @@ namespace MegaGame
                 if (!newTile.GetSide().Equals(entityTile.GetSide()) && 
                     newTile.GetEntities() != null && newTile.GetEntities().Count > 0)
                 {
-                    // shoot everything in square
+                    // Tell GameBoard to damage everything in square
                     foreach (TileEntity e in newTile.GetEntities())
                     {
-                        float amountDealt = e.TakeDamage(this.baseDamage);
-                        Debug.Log(e.GetName() + " was shot for " + amountDealt + " damage ");
+                        board.DoDamageToTileEntity(e, this.baseDamage);
                     }
                     return true;
                 }
