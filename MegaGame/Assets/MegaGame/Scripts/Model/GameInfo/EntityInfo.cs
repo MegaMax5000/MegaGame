@@ -10,17 +10,17 @@ namespace MegaGame
 {
     public class EntityInfo : Info
     {
-        public Vector2Int position;
-        public string uid;
-        public int health;
+        public Vector2Int Position;
+        public string Uid;
+        public int Health;
 
         protected override void RegisterFieldsToSerialize()
         {
             beginRegistration();
-            register(uid);
-            register(health);
-            register(position.x);
-            register(position.y);
+            register(Uid);
+            register(Health);
+            register(Position.x);
+            register(Position.y);
         }
 
         // s will be in the form of (uid,health,x,y)
@@ -35,15 +35,15 @@ namespace MegaGame
             string[] args = GetValues(s, delim);
             string id = args[0];
             EntityInfo ei = new EntityInfo(id);
-            ei.health = Int32.Parse(args[1]);
-            ei.position.x = Int32.Parse(args[2]);
-            ei.position.y = Int32.Parse(args[3]);
+            ei.Health = Int32.Parse(args[1]);
+            ei.Position.x = Int32.Parse(args[2]);
+            ei.Position.y = Int32.Parse(args[3]);
             return ei;
         }
 
         public EntityInfo(string uid)
         {
-            this.uid = uid;
+            this.Uid = uid;
             this.openingDelim = SerializationConstants.ENTITY_INFO_START;
             this.closingDelim = SerializationConstants.ENTITY_INFO_END;
             this.delim = SerializationConstants.ENTITY_DELIM;

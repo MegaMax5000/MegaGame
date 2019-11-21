@@ -8,14 +8,14 @@ namespace MegaGame
     public class GameInfo : Info
     {
         // k: uid, v: EntityInfo
-        public Dictionary<string, EntityInfo> entityInfos = new Dictionary<string, EntityInfo>();
+        public Dictionary<string, EntityInfo> EntityInfos = new Dictionary<string, EntityInfo>();
 
         public bool WasUpdated = false;
 
         protected override void RegisterFieldsToSerialize()
         {
             beginRegistration();
-            foreach (EntityInfo inf in entityInfos.Values)
+            foreach (EntityInfo inf in EntityInfos.Values)
             {
                 register(inf);
             }
@@ -42,7 +42,7 @@ namespace MegaGame
 
                 if (info != null)
                 {
-                    gi.entityInfos.Add(info.uid, info);
+                    gi.EntityInfos.Add(info.Uid, info);
                 }
                 else
                 {
@@ -56,31 +56,31 @@ namespace MegaGame
         public bool UpdateOrAddToEntityInfoDictionary(EntityInfo value)
         {
             WasUpdated = true;
-            return UpdateOrAddToEntityInfoDictionary(value.uid, value);
+            return UpdateOrAddToEntityInfoDictionary(value.Uid, value);
         }
 
         // Will return true if added a new entry, false if updated existing one
         public bool UpdateOrAddToEntityInfoDictionary(string key, EntityInfo value)
         {
             // Update the position
-            if (entityInfos.ContainsKey(key))
+            if (EntityInfos.ContainsKey(key))
             {
-                entityInfos[key] = value;
+                EntityInfos[key] = value;
                 return false;
             }
             else
             {
-                entityInfos.Add(key, value);
+                EntityInfos.Add(key, value);
                 return true;
             }
         }
 
         public EntityInfo GetEntityInfoOrDefault(string uid, EntityInfo def)
         {
-            if (entityInfos.ContainsKey(uid))
+            if (EntityInfos.ContainsKey(uid))
             {
                 EntityInfo inf;
-                if (entityInfos.TryGetValue(uid, out inf))
+                if (EntityInfos.TryGetValue(uid, out inf))
                 {
                     return inf;
                 }

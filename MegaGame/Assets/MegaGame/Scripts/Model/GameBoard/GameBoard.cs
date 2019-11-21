@@ -174,7 +174,7 @@ namespace MegaGame
 
             // Get or create EntityInfo
             EntityInfo info = gameInfo.GetEntityInfoOrDefault(tileEntity.GetUid(), CreateBaseEntityInfoFromTileEntity(tileEntity));
-            info.position = to;
+            info.Position = to;
             gameInfo.UpdateOrAddToEntityInfoDictionary(info);
             Debug.Log(gameInfo.ToString());
         }
@@ -182,8 +182,8 @@ namespace MegaGame
         private EntityInfo CreateBaseEntityInfoFromTileEntity(TileEntity te)
         {
             EntityInfo toReturn = new EntityInfo(te.GetUid());
-            toReturn.health = te.Health;
-            toReturn.position = positionDict[te.GetUid()];
+            toReturn.Health = te.Health;
+            toReturn.Position = positionDict[te.GetUid()];
 
             return toReturn;
         }
@@ -264,9 +264,9 @@ namespace MegaGame
         // processes game info relayed from the player. 
         public void ProcessNewGameInfo(GameInfo info)
         {
-            foreach (EntityInfo i in info.entityInfos.Values)
+            foreach (EntityInfo i in info.EntityInfos.Values)
             {
-                string uid = i.uid;
+                string uid = i.Uid;
 
                 TileEntity te = GetTileEntityFromUID(uid);
                 UpdateTileEntityFromNewGameInfo(te, i);
@@ -274,7 +274,7 @@ namespace MegaGame
                 if (positionDict.ContainsKey(uid))
                 {
                     Vector2Int oldPos = positionDict[uid];
-                    Vector2Int newPos = i.position;
+                    Vector2Int newPos = i.Position;
 
                     if (oldPos != newPos)
                     {
@@ -291,7 +291,7 @@ namespace MegaGame
                 {
                     if (te != null)
                     {
-                        AddEntityToTile(i.position.x, i.position.y, te);
+                        AddEntityToTile(i.Position.x, i.Position.y, te);
                     }
                 }
             }
@@ -324,9 +324,12 @@ namespace MegaGame
             {
                 PlayerTileEntity p = (PlayerTileEntity)tileEntity;
 
-                //calculate and distribute incoming damage
-                int damageToTake = p.Health - entityInfo.health;
-                p.TakeDamage(damageToTake);
+                if (p.Health != entityInfo.Health)
+                { 
+                    //calculate and distribute incoming damage
+                    int damageToTake = p.Health - entityInfo.Health;
+                    p.TakeDamage(damageToTake);
+                }
             }
         }
     }
