@@ -125,5 +125,16 @@ namespace MegaGame
             return amount;
         }
 
+
+        public void ClaimTile(Tile tile) {
+            tile.SetSide(GetTile().GetSide());
+        }
+
+        protected Tile GetTile() {
+            Vector2Int pos = gameBoard.GetTileEntityPosition(this);
+            Tile entityTile = gameBoard.GetTile(pos.x, pos.y);
+            return entityTile;
+        }
+
     }
 }

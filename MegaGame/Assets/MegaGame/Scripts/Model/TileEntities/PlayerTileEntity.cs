@@ -28,7 +28,7 @@ namespace MegaGame
         public void DoMove(Vector2Int direction)
         {
             GameManager.Instance.MyGameBoard.DoMoveTileEntity(this, direction);
-            cooldownTimer = Cooldown_time;
+            movementCooldownTimer = Cooldown_time;
         }
 
         public override void DoTick()
@@ -46,14 +46,14 @@ namespace MegaGame
         // Update is called once per frame
         void Update()
         {
-            HandleMove();
+            HandleInput();
             HealthText.text = Health + "";
         }
 
-        private float cooldownTimer;
-        private void HandleMove()
+        private float movementCooldownTimer;
+        private void HandleInput()
         {
-            if (cooldownTimer <= 0 && photonView.IsMine)
+            if (movementCooldownTimer <= 0 && photonView.IsMine)
             {
                 if (Input.GetKeyDown(KeyCode.W))
                 {
@@ -75,12 +75,26 @@ namespace MegaGame
                 {
                     this.blaster.DoShoot();
                 }
+                else if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    Debug.Log("Claim a tile");
+                    Tile.SIDE mySide = GetTile().GetSide();
+                    Vector2Int pos = gameBoard.GetTileEntityPosition(this);
+                    Tile tile = gameBoard.GetTile(pos.x, (pos.y+1) * (mySide == Tile.SIDE.LEFT ? 1 : -1));
+
+                    if (tile != null) {
+                        this.ClaimTile(tile);
+                    }
+                }
+            
+
             }
             else
             {
-                cooldownTimer -= Time.deltaTime;
+                movementCooldownTimer -= Time.deltaTime;
             }
         }
+
 
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
         {

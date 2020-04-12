@@ -99,6 +99,9 @@ namespace MegaGame
 
         public Tile GetTile(int row, int col)
         {
+            if (row < 0 || col < 0 || row >= height || col >= width) {
+                return null;
+            }
             return boardArray[row, col];
         }
 
@@ -244,6 +247,7 @@ namespace MegaGame
             }
             return newPosition;
         }
+
         // Update is called once per frame
         void Update()
         {
