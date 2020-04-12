@@ -225,6 +225,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63f573791deba7343865595d683862e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  side: 0
   tileEntities: []
   gameBoard: {fileID: 0}
 --- !u!1 &111059396
@@ -332,6 +333,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63f573791deba7343865595d683862e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  side: 0
   tileEntities: []
   gameBoard: {fileID: 0}
 --- !u!1 &194434641
@@ -439,6 +441,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63f573791deba7343865595d683862e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  side: 0
   tileEntities: []
   gameBoard: {fileID: 0}
 --- !u!1 &288309910
@@ -546,6 +549,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63f573791deba7343865595d683862e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  side: 0
   tileEntities: []
   gameBoard: {fileID: 0}
 --- !u!1 &562461973
@@ -602,7 +606,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &574068089
 Transform:
   m_ObjectHideFlags: 0
@@ -880,6 +884,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63f573791deba7343865595d683862e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  side: 0
   tileEntities: []
   gameBoard: {fileID: 0}
 --- !u!1 &659024465
@@ -987,6 +992,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63f573791deba7343865595d683862e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  side: 0
   tileEntities: []
   gameBoard: {fileID: 0}
 --- !u!1 &744291852
@@ -1124,6 +1130,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63f573791deba7343865595d683862e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  side: 0
   tileEntities: []
   gameBoard: {fileID: 0}
 --- !u!1 &879994258
@@ -1231,6 +1238,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63f573791deba7343865595d683862e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  side: 0
   tileEntities: []
   gameBoard: {fileID: 0}
 --- !u!1 &1031865467
@@ -1338,6 +1346,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63f573791deba7343865595d683862e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  side: 0
   tileEntities: []
   gameBoard: {fileID: 0}
 --- !u!1 &1264879220
@@ -1523,6 +1532,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63f573791deba7343865595d683862e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  side: 0
   tileEntities: []
   gameBoard: {fileID: 0}
 --- !u!1 &1357053803
@@ -1630,6 +1640,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63f573791deba7343865595d683862e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  side: 0
   tileEntities: []
   gameBoard: {fileID: 0}
 --- !u!1 &1424342924
@@ -1737,6 +1748,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63f573791deba7343865595d683862e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  side: 0
   tileEntities: []
   gameBoard: {fileID: 0}
 --- !u!1 &1447840422
@@ -1935,6 +1947,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63f573791deba7343865595d683862e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  side: 0
   tileEntities: []
   gameBoard: {fileID: 0}
 --- !u!1 &1468983742
@@ -2021,7 +2034,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1505236039
 Transform:
   m_ObjectHideFlags: 0
@@ -2200,6 +2213,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63f573791deba7343865595d683862e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  side: 0
   tileEntities: []
   gameBoard: {fileID: 0}
 --- !u!1001 &1555606212
@@ -2331,10 +2345,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ee6fbddb92a731e4e93e0f9f65ea8f8d, type: 3}
---- !u!224 &1555606213 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 7484362977463539323, guid: ee6fbddb92a731e4e93e0f9f65ea8f8d,
-    type: 3}
+--- !u!4 &1555606213 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 1555606212}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1728828132
@@ -2442,6 +2455,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63f573791deba7343865595d683862e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  side: 0
   tileEntities: []
   gameBoard: {fileID: 0}
 --- !u!1 &1751965450
@@ -2549,6 +2563,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63f573791deba7343865595d683862e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  side: 0
   tileEntities: []
   gameBoard: {fileID: 0}
 --- !u!1 &1870003667
@@ -2740,6 +2755,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63f573791deba7343865595d683862e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  side: 0
   tileEntities: []
   gameBoard: {fileID: 0}
 --- !u!1 &2095556394
@@ -2930,5 +2946,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63f573791deba7343865595d683862e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  side: 0
   tileEntities: []
   gameBoard: {fileID: 0}
