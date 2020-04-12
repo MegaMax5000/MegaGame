@@ -251,6 +251,7 @@ namespace MegaGame
         // Update is called once per frame
         void Update()
         {
+            TimedActionManager.GetInstance().DoActions();
             TickAllTiles();
         }
 

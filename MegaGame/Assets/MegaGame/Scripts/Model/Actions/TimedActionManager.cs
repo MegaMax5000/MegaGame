@@ -12,7 +12,7 @@ namespace MegaGame {
             return manager;
         }
 
-        private class ActionItem
+        public class ActionItem
         {
             public object client;
             public TimedAction action;
@@ -24,23 +24,38 @@ namespace MegaGame {
             }
         }
 
-        private List<ActionItem> ActionItems = new List<ActionItem>();
+        private Dictionary<object,List<ActionItem>> ActionItems = new Dictionary<object,List<ActionItem>>();
 
-        public void RegisterAction(Action action, object client, float time)
+        public ActionItem RegisterAction(Action action, object client, float time)
         {
-            ActionItems.Add(new ActionItem(client, new TimedAction(action, time)));
+            if (!ActionItems.ContainsKey(client)) {
+                ActionItems.Add(client, new List<ActionItem>());
+            }
+
+            ActionItem a = new ActionItem(client, new TimedAction(action, time));
+            ActionItems[client].Add(a);
+
+            return a;
         }
 
-        public void RegisterAction(TimedAction action, object client)
-        {
-            ActionItems.Add(new ActionItem(client, action));
+        public void UnregisterAction(ActionItem action, object client) {
+            if ( client != null && ActionItems.ContainsKey(client) ) {
+                ActionItems[client].Remove(action);
+
+                // cleanup
+                if (ActionItems[client].Count == 0) {
+                    ActionItems.Remove(client);
+                }
+            }
         }
 
         public void DoActions()
         {
-            foreach (ActionItem item in ActionItems)
+            foreach (object client in ActionItems)
             {
-                item.action.DoTimedAction();
+                foreach ( ActionItem item in ActionItems[client] ) {
+                    item.action.DoTimedAction();
+                }
             }
         }
     }

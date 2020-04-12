@@ -17,5 +17,11 @@ namespace MegaGame
         {
             return this.parentEntity;
         }
+
+        // It is intended for different accessories to
+        // override this
+        public void DoAction() {
+
+        }
     }
 }

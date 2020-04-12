@@ -16,8 +16,7 @@ namespace MegaGame
 
         public ShockWaveEntity(GameBoard gb, string name, int maxHealth) : base(gb, name, maxHealth)
         {
-            TimedAction action = new TimedAction(new ShockWaveAction(), SHOCKWAVE_SPEED);
-            TimedActionManager.GetInstance().RegisterAction(action, this);
+            TimedActionManager.GetInstance().RegisterAction(new ShockWaveAction(), this, SHOCKWAVE_SPEED);
         }
 
         public override void DoTick()

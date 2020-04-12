@@ -38,6 +38,7 @@ namespace MegaGame
             Player = 0,
             Damage = 1,
             Wall = 2, //temp, not sure if this will exist
+            Turret = 3
         }
 
         public TileEntityType MyTileEntityType { get; protected set; }
