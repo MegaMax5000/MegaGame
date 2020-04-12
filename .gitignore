@@ -32,3 +32,5 @@ MegaGame/Assembly-CSharp.csproj
 ehthumbs.db
 Thumbs.db
 MegaGame/MegaGame.sln
+*.sln
+MegaGame/PhotonChat.csproj
