@@ -95,6 +95,15 @@ namespace MegaGame
             PhotonNetwork.Destroy(localPlayer.gameObject);
         }
 
+        public void SpawnStupidPhotonProjectile(string name, Vector3 position, Quaternion rotation, Vector3 direction, float speed, int damage)
+        {
+            GameObject bulletGO = PhotonNetwork.Instantiate(name, position, rotation);
+            BlasterBullet bb = bulletGO.GetComponent<BlasterBullet>();
+            bb.MoveDirection = direction;
+            bb.MoveSpeed = speed;
+            bb.Damage = damage;
+        }
+
         private void SetupLocalPlayer(string name, int row, int col, Transform startingOrientationTransform)
         {
             Debug.LogFormat("We are Instantiating LocalPlayer from {0}, they will be " + name, SceneManagerHelper.ActiveSceneName);
