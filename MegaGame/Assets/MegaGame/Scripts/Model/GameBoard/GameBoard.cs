@@ -330,15 +330,15 @@ namespace MegaGame
 
         private void UpdateTileEntityFromNewGameInfo(TileEntity tileEntity, EntityInfo entityInfo)
         {
-            if (tileEntity != null && tileEntity.MyTileEntityType == TileEntity.TileEntityType.Player)
+            if (tileEntity != null/* && tileEntity.MyTileEntityType == TileEntity.TileEntityType.Player*/)
             {
-                PlayerTileEntity p = (PlayerTileEntity)tileEntity;
+                //TileEntity tileEntity = (TileEntity)tileEntity;
 
-                if (p.Health != entityInfo.Health)
+                if (tileEntity.Health != entityInfo.Health)
                 { 
                     //calculate and distribute incoming damage
-                    int damageToTake = p.Health - entityInfo.Health;
-                    p.TakeDamage(damageToTake);
+                    int damageToTake = tileEntity.Health - entityInfo.Health;
+                    tileEntity.TakeDamage(damageToTake);
                 }
             }
         }

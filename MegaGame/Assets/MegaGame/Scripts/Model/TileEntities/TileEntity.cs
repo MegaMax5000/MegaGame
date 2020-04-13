@@ -1,11 +1,12 @@
 ﻿using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 namespace MegaGame
 {
-    public abstract class TileEntity : MonoBehaviourPunCallbacks
+    public abstract class TileEntity : MonoBehaviourPunCallbacks, IPunObservable
     {
 
         protected GameBoard gameBoard;
@@ -17,6 +18,8 @@ namespace MegaGame
 
         [SerializeField]
         public int Health { get; protected set; }
+
+        public TextMeshPro HealthText;
 
         //public override bool Equals(object other)
         //{
@@ -75,16 +78,20 @@ namespace MegaGame
         // Start is called before the first frame update
         void Start()
         {
-
+            this.maxHealth = 10;
+            this.Health = this.maxHealth;
         }
 
         // Update is called once per frame
         void Update()
         {
-
+            DoTick();
         }
 
-        public abstract void DoTick();
+        public virtual void DoTick()
+        {
+            HealthText.text = Health + "";
+        }
 
         public float GetMaxHealth()
         {
@@ -150,5 +157,37 @@ namespace MegaGame
             }
         }
 
+        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        {
+            if (stream.IsWriting)
+            {
+                // We own this player: send the others our data
+                GameInfo gi = GameManager.Instance.MyGameBoard.GetGameInfo();
+                if (gi.WasUpdated)
+                {
+                    // We own this player: send the others our data
+                    string giString = gi.ToString();
+                    stream.SendNext(giString);
+                    Debug.Log(giString);
+
+                    // reset the current game info to record new information
+                    GameManager.Instance.MyGameBoard.ResetGameInfo();
+                }
+                else
+                {
+                    stream.SendNext("");
+                }
+            }
+            else
+            {
+                // Network player, recieve data
+                string r = (string)stream.ReceiveNext();
+                if (r != "")
+                {
+                    GameInfo gi = GameInfo.FromString(r);
+                    GameManager.Instance.MyGameBoard.ProcessNewGameInfo(gi);
+                }
+            }
+        }
     }
 }

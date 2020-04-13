@@ -18,9 +18,5 @@ namespace MegaGame
         {
             TimedActionManager.GetInstance().RegisterAction(new ShockWaveAction(), this, SHOCKWAVE_SPEED);
         }
-
-        public override void DoTick()
-        {
-        }
     }
 }

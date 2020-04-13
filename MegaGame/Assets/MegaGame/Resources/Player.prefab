@@ -69,9 +69,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uid: 
-  maxHealth: 0
-  Cooldown_time: 0.05
+  maxHealth: 10
   HealthText: {fileID: 3111034022776849383}
+  Cooldown_time: 0.05
 --- !u!136 &2308551928562459476
 CapsuleCollider:
   m_ObjectHideFlags: 0

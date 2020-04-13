@@ -59,10 +59,5 @@ namespace MegaGame
 
             action = null;
         }
-
-
-        public override void DoTick() {
-
-        }
     }
 }

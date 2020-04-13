@@ -6,10 +6,9 @@ using UnityEngine;
 
 namespace MegaGame
 {
-    public class PlayerTileEntity : TileEntity, IMoveable, IPunObservable
+    public class PlayerTileEntity : TileEntity, IMoveable
     {
         public float Cooldown_time = 0.1f;
-        public TextMeshPro HealthText;
 
         private Blaster blaster;
 
@@ -33,7 +32,8 @@ namespace MegaGame
 
         public override void DoTick()
         {
-            // Do nothing
+            base.DoTick();
+            HandleInput();
         }
 
         void Start()
@@ -41,13 +41,6 @@ namespace MegaGame
             blaster = new Blaster(this);
             this.maxHealth = 10;
             this.Health = this.maxHealth;
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-            HandleInput();
-            HealthText.text = Health + "";
         }
 
         private float movementCooldownTimer;
@@ -96,37 +89,37 @@ namespace MegaGame
         }
 
 
-        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-        {
-            if (stream.IsWriting)
-            {
-                // We own this player: send the others our data
-                GameInfo gi = GameManager.Instance.MyGameBoard.GetGameInfo();
-                if (gi.WasUpdated)
-                {
-                    // We own this player: send the others our data
-                    string giString = gi.ToString();
-                    stream.SendNext(giString);
-                    Debug.Log(giString);
+        //public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        //{
+        //    if (stream.IsWriting)
+        //    {
+        //        // We own this player: send the others our data
+        //        GameInfo gi = GameManager.Instance.MyGameBoard.GetGameInfo();
+        //        if (gi.WasUpdated)
+        //        {
+        //            // We own this player: send the others our data
+        //            string giString = gi.ToString();
+        //            stream.SendNext(giString);
+        //            Debug.Log(giString);
 
-                    // reset the current game info to record new information
-                    GameManager.Instance.MyGameBoard.ResetGameInfo();
-                }
-                else
-                {
-                    stream.SendNext("");
-                }
-            }
-            else
-            {
-                // Network player, recieve data
-                string r = (string)stream.ReceiveNext();
-                if (r != "")
-                {
-                    GameInfo gi = GameInfo.FromString(r);
-                    GameManager.Instance.MyGameBoard.ProcessNewGameInfo(gi);
-                }
-            }
-        }
+        //            // reset the current game info to record new information
+        //            GameManager.Instance.MyGameBoard.ResetGameInfo();
+        //        }
+        //        else
+        //        {
+        //            stream.SendNext("");
+        //        }
+        //    }
+        //    else
+        //    {
+        //        // Network player, recieve data
+        //        string r = (string)stream.ReceiveNext();
+        //        if (r != "")
+        //        {
+        //            GameInfo gi = GameInfo.FromString(r);
+        //            GameManager.Instance.MyGameBoard.ProcessNewGameInfo(gi);
+        //        }
+        //    }
+        //}
     }
 }
