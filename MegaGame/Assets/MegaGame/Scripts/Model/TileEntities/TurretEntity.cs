@@ -23,8 +23,8 @@ namespace MegaGame
 
         public void Init()
         {
-            this.accessory = AccessoryFactory.createAccessory(AccessoryFactory.AccessoryType.Counting, this);
-            StartShooting(2);
+            this.accessory = AccessoryFactory.createAccessory(AccessoryFactory.AccessoryType.Blaster, this);
+            //StartShooting(2);
         }
 
         public void StartShooting(float interval) {

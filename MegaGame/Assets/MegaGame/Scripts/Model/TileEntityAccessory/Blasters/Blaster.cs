@@ -16,6 +16,11 @@ namespace MegaGame
             return baseDamage;
         }
 
+        public override void DoAction()
+        {
+            DoShoot();
+        }
+
         // returns the entity which was shot (null if nothing was shot)
         public bool DoShoot()
         {

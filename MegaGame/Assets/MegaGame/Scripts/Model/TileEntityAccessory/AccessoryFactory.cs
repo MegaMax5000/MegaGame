@@ -18,6 +18,9 @@ namespace MegaGame
                 case AccessoryType.Counting:
                     a = new CountAccessory(t);
                     break;
+                case AccessoryType.Blaster:
+                    a = new Blaster(t);
+                    break;
             }
 
             return a;
