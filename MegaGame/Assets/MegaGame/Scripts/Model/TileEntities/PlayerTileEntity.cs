@@ -136,7 +136,7 @@ namespace MegaGame
             {
                 GameManager.Instance.MyGameBoard.DoDamageToTileEntity(this, b.Damage);
                 //TakeDamage(b.Damage);
-                PhotonNetwork.Destroy(other.gameObject.GetComponent<PhotonView>());
+                //PhotonNetwork.Destroy(other.gameObject.GetComponent<PhotonView>());
             }
         }
     }
