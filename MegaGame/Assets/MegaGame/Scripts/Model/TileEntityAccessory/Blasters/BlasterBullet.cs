@@ -23,7 +23,6 @@ public class BlasterBullet : MonoBehaviourPunCallbacks, IPunObservable
     // Update is called once per frame
     void FixedUpdate()
     {
-
         if (!photonView.IsMine)
         {
             myRB.position = Vector3.MoveTowards(myRB.position, networkPosition, Time.fixedDeltaTime);
@@ -49,7 +48,8 @@ public class BlasterBullet : MonoBehaviourPunCallbacks, IPunObservable
         {
             networkPosition = (Vector3)stream.ReceiveNext();
             networkRotation = (Quaternion)stream.ReceiveNext();
-            myRB.velocity = (Vector3)stream.ReceiveNext();
+            Vector3 v = (Vector3)stream.ReceiveNext();
+            if (v != null) myRB.velocity = v;
 
             float lag = Mathf.Abs((float)(PhotonNetwork.Time - info.SentServerTime));
             networkPosition += (this.myRB.velocity * lag);
