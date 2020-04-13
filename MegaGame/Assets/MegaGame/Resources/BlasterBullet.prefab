@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 6719267385456436170}
   - component: {fileID: 1036766210564010325}
   - component: {fileID: 5242092370362605676}
+  - component: {fileID: 2365664101358632221}
   m_Layer: 0
   m_Name: BlasterBullet
   m_TagString: Untagged
@@ -87,6 +88,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   ObservedComponents:
   - {fileID: 5036657046354493936}
+  - {fileID: 2365664101358632221}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -165,3 +167,18 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2365664101358632221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4609462431760878436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
