@@ -330,7 +330,7 @@ namespace MegaGame
 
         private void UpdateTileEntityFromNewGameInfo(TileEntity tileEntity, EntityInfo entityInfo)
         {
-            if (tileEntity.MyTileEntityType == TileEntity.TileEntityType.Player)
+            if (tileEntity != null && tileEntity.MyTileEntityType == TileEntity.TileEntityType.Player)
             {
                 PlayerTileEntity p = (PlayerTileEntity)tileEntity;
 
