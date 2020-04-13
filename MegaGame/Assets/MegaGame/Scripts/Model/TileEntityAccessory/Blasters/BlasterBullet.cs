@@ -49,10 +49,13 @@ public class BlasterBullet : MonoBehaviourPunCallbacks, IPunObservable
             networkPosition = (Vector3)stream.ReceiveNext();
             networkRotation = (Quaternion)stream.ReceiveNext();
             Vector3 v = (Vector3)stream.ReceiveNext();
-            if (v != null && myRB != null) myRB.velocity = v;
+            if (v != null && myRB != null)
+            {
+                myRB.velocity = v;
 
-            float lag = Mathf.Abs((float)(PhotonNetwork.Time - info.SentServerTime));
-            networkPosition += (this.myRB.velocity * lag);
+                float lag = Mathf.Abs((float)(PhotonNetwork.Time - info.SentServerTime));
+                networkPosition += (this.myRB.velocity * lag);
+            }
         }
     }
 }
