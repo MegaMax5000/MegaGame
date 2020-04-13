@@ -82,12 +82,6 @@ namespace MegaGame
             this.Health = this.maxHealth;
         }
 
-        // Update is called once per frame
-        void Update()
-        {
-            DoTick();
-        }
-
         public virtual void DoTick()
         {
             HealthText.text = Health + "";

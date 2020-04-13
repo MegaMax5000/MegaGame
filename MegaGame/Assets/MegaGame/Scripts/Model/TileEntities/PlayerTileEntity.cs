@@ -66,7 +66,7 @@ namespace MegaGame
                 else if (Input.GetKeyDown(KeyCode.Mouse0))
                 {
                     this.blaster.DoShoot();
-                    movementCooldownTimer = Cooldown_time;
+                    //movementCooldownTimer = Cooldown_time;
                 }
                 else if (Input.GetKeyDown(KeyCode.Space))
                 {
