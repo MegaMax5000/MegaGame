@@ -13,7 +13,10 @@ namespace MegaGame
                 this.accessory = a;
             }
             public override void DoAction() {
-                accessory.DoAction();
+                if (Random.value > .4)
+                {
+                    accessory.DoAction();
+                }
             }
         }
         Accessory accessory;
@@ -24,7 +27,7 @@ namespace MegaGame
         public void Init()
         {
             this.accessory = AccessoryFactory.createAccessory(AccessoryFactory.AccessoryType.Blaster, this);
-            StartShooting(2);
+            StartShooting(.5f);
         }
 
         public void StartShooting(float interval) {
