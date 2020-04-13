@@ -73,7 +73,7 @@ namespace MegaGame
                     Debug.Log("Claim a tile");
                     Tile.SIDE mySide = GetTile().GetSide();
                     Vector2Int pos = gameBoard.GetTileEntityPosition(this);
-                    Tile tile = gameBoard.GetTile(pos.x, (pos.y+1) * (mySide == Tile.SIDE.LEFT ? 1 : -1));
+                    Tile tile = gameBoard.GetTile(pos.x, pos.y + (1 * (mySide == Tile.SIDE.LEFT ? 1 : -1)));
 
                     if (tile != null) {
                         this.ClaimTile(tile);
@@ -87,39 +87,5 @@ namespace MegaGame
                 movementCooldownTimer -= Time.deltaTime;
             }
         }
-
-
-        //public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-        //{
-        //    if (stream.IsWriting)
-        //    {
-        //        // We own this player: send the others our data
-        //        GameInfo gi = GameManager.Instance.MyGameBoard.GetGameInfo();
-        //        if (gi.WasUpdated)
-        //        {
-        //            // We own this player: send the others our data
-        //            string giString = gi.ToString();
-        //            stream.SendNext(giString);
-        //            Debug.Log(giString);
-
-        //            // reset the current game info to record new information
-        //            GameManager.Instance.MyGameBoard.ResetGameInfo();
-        //        }
-        //        else
-        //        {
-        //            stream.SendNext("");
-        //        }
-        //    }
-        //    else
-        //    {
-        //        // Network player, recieve data
-        //        string r = (string)stream.ReceiveNext();
-        //        if (r != "")
-        //        {
-        //            GameInfo gi = GameInfo.FromString(r);
-        //            GameManager.Instance.MyGameBoard.ProcessNewGameInfo(gi);
-        //        }
-        //    }
-        //}
     }
 }
