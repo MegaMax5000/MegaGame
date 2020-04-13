@@ -85,6 +85,11 @@ namespace MegaGame
                 Debug.Log("[GameBoard] Cannot add entity to tile: (" + row + "," + column + ")");
                 return;
             }
+
+            if (boardArray[row, column] == null) {
+                Debug.Log("[GameBoard] Cannot add entity to tile: (" + row + "," + column + ")");
+                return;
+            }
             boardArray[row, column].AddEntity(tileEntity);
 
             if (positionDict.ContainsKey(tileEntity.GetUid()))

@@ -1,17 +1,15 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace MegaGame
 {
-    public abstract class Accessory
+    public class CountAccessory : Accessory
     {
         protected TileEntity parentEntity;
-
-        public Accessory(TileEntity parent)
-        {
-            this.parentEntity = parent;
-        }
+        private int i = 0;
+        public CountAccessory(TileEntity parent) : base(parent)
+        {}
 
         public TileEntity GetParentEntity()
         {
@@ -20,8 +18,8 @@ namespace MegaGame
 
         // It is intended for different accessories to
         // override this
-        public virtual void DoAction() {
-
+        public override void DoAction() {
+            Debug.Log(Time.time);
         }
     }
 }

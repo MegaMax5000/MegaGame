@@ -17,14 +17,19 @@ namespace MegaGame
             }
         }
         Accessory accessory;
-        public TurretEntity(GameBoard gb, Accessory accessory, string name, int maxHealth) : base(gb, name, maxHealth, TileEntityType.Turret)
+        public TurretEntity(GameBoard gb, string name, int maxHealth) : base(gb, name, maxHealth, TileEntityType.Turret)
         {   
-            this.accessory = accessory;
+        }
+
+        public void Init()
+        {
+            this.accessory = AccessoryFactory.createAccessory(AccessoryFactory.AccessoryType.Counting, this);
+            StartShooting(2);
         }
 
         public void StartShooting(float interval) {
 
-            if (action == null) {
+            if (action != null) {
                 Debug.Log("[TurretEntity] Turret is already shooting");
                 return;
             }

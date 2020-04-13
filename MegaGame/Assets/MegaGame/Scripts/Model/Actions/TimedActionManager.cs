@@ -51,7 +51,7 @@ namespace MegaGame {
 
         public void DoActions()
         {
-            foreach (object client in ActionItems)
+            foreach (object client in ActionItems.Keys)
             {
                 foreach ( ActionItem item in ActionItems[client] ) {
                     item.action.DoTimedAction();
