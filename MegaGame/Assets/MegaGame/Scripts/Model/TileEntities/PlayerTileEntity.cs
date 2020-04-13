@@ -131,7 +131,8 @@ namespace MegaGame
 
         private void OnTriggerEnter(Collider other)
         {
-            if (!PhotonNetwork.IsMasterClient) return;
+            if (PhotonNetwork.IsMasterClient) return;
+
             BlasterBullet b = other.gameObject.GetComponent<BlasterBullet>();
             if (b != null)
             {
