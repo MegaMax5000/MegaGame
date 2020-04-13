@@ -98,6 +98,8 @@ namespace MegaGame
 
         public void SpawnStupidPhotonProjectile(string name, Vector3 position, Quaternion rotation, Vector3 direction, float speed, int damage)
         {
+            if (!PhotonNetwork.IsMasterClient) return;
+
             GameObject bulletGO = PhotonNetwork.Instantiate(name, position, rotation);
             BlasterBullet bb = bulletGO.GetComponent<BlasterBullet>();
             bb.MoveDirection = direction;
