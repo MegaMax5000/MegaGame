@@ -134,8 +134,9 @@ namespace MegaGame
             BlasterBullet b = other.gameObject.GetComponent<BlasterBullet>();
             if (b != null)
             {
-                TakeDamage(b.Damage);
-                PhotonNetwork.Destroy(other.gameObject);
+                GameManager.Instance.MyGameBoard.DoDamageToTileEntity(this, b.Damage);
+                //TakeDamage(b.Damage);
+                PhotonNetwork.Destroy(other.gameObject.GetComponent<PhotonView>());
             }
         }
     }

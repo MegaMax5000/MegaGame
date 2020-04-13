@@ -10,6 +10,8 @@ public class BlasterBullet : MonoBehaviour
     public float MoveSpeed;
     public int Damage;
 
+    private float lifespan = 5f;
+
     private Rigidbody myRB;
 
     // Start is called before the first frame update
@@ -22,5 +24,7 @@ public class BlasterBullet : MonoBehaviour
     void Update()
     {
         myRB.velocity = new Vector3(MoveDirection.x, MoveDirection.y, MoveDirection.z).normalized * MoveSpeed;
+        lifespan -= Time.deltaTime;
+        if (lifespan <= 0) Destroy(this);
     }
 }
