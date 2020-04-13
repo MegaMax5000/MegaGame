@@ -54,7 +54,7 @@ public class BlasterBullet : MonoBehaviourPunCallbacks, IPunObservable
                 myRB.velocity = v;
 
                 float lag = Mathf.Abs((float)(PhotonNetwork.Time - info.SentServerTime));
-                networkPosition += (this.myRB.velocity * lag);
+                networkPosition -= (this.myRB.velocity * lag);
             }
         }
     }

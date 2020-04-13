@@ -128,18 +128,5 @@ namespace MegaGame
                 }
             }
         }
-
-        private void OnTriggerEnter(Collider other)
-        {
-            if (this != GameManager.Instance.LocalPlayer) return;
-
-            BlasterBullet b = other.gameObject.GetComponent<BlasterBullet>();
-            if (b != null)
-            {
-                GameManager.Instance.MyGameBoard.DoDamageToTileEntity(this, b.Damage);
-                //TakeDamage(b.Damage);
-                //PhotonNetwork.Destroy(other.gameObject.GetComponent<PhotonView>());
-            }
-        }
     }
 }

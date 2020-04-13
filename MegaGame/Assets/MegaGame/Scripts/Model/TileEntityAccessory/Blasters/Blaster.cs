@@ -33,7 +33,7 @@ namespace MegaGame
             Vector3 bulletDirection = Tile.SIDE.LEFT.Equals(entityTile.GetSide()) ? new Vector3(1, 0, 0) : new Vector3(-1, 0, 0);
             Vector3 bulletSpawnPosition = this.parentEntity.transform.position + bulletDirection.normalized * 2;
 
-            GameManager.Instance.SpawnStupidPhotonProjectile("BlasterBullet", bulletSpawnPosition, Quaternion.identity, bulletDirection, 100f, 1);
+            GameManager.Instance.SpawnStupidPhotonProjectile("BlasterBullet", bulletSpawnPosition, Quaternion.identity, bulletDirection, 300f, 1);
             //Vector2Int pos = entityPosition + direction;
             //for (int i = 0; i < this.shootRange && board.IsOnBoard(pos); ++i)
             //{
