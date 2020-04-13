@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3611122040260446486}
   - component: {fileID: -8575136372380305891}
   - component: {fileID: 2803828289640237872}
-  - component: {fileID: 2308551928562459476}
+  - component: {fileID: 749757227363369955}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -72,8 +72,8 @@ MonoBehaviour:
   maxHealth: 10
   HealthText: {fileID: 3111034022776849383}
   Cooldown_time: 0.05
---- !u!136 &2308551928562459476
-CapsuleCollider:
+--- !u!65 &749757227363369955
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -82,9 +82,8 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
+  serializedVersion: 2
+  m_Size: {x: 2, y: 4, z: 2}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3244912133371322449
 GameObject:
@@ -313,7 +312,6 @@ GameObject:
   - component: {fileID: 1309311656789296265}
   - component: {fileID: 5791582596522298761}
   - component: {fileID: 8614987168969365339}
-  - component: {fileID: 3471109312157003662}
   m_Layer: 0
   m_Name: Sphere (1)
   m_TagString: Untagged
@@ -381,19 +379,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!135 &3471109312157003662
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3653889036751580946}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4157139751569642015
 GameObject:
   m_ObjectHideFlags: 0
@@ -405,7 +390,6 @@ GameObject:
   - component: {fileID: 8095293450958059468}
   - component: {fileID: 8134515522242795757}
   - component: {fileID: 7588791090316926843}
-  - component: {fileID: 8116845090529379539}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
@@ -473,19 +457,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!135 &8116845090529379539
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4157139751569642015}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4439829587658832774
 GameObject:
   m_ObjectHideFlags: 0

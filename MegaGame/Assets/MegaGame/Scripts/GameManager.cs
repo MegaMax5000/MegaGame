@@ -42,7 +42,7 @@ namespace MegaGame
                     int initialRow = MyGameBoard.GameBoardHeight / 2 + (MyGameBoard.GameBoardHeight % 2 - 1);
                     int initialWidth = MyGameBoard.GameBoardWidth / 4 + ((MyGameBoard.GameBoardWidth / 2) % 2 - 1);
                     SetupLocalPlayer("Player1", initialRow, initialWidth, Player1TempPos);
-                    SpawnStupidShitPhotonProjectile(new Vector3(0, 0), Quaternion.identity, new Vector3(0, 0), 0, 5);
+                    //SpawnStupidShitPhotonProjectile(new Vector3(0, 0), Quaternion.identity, new Vector3(0, 0), 0, 5);
                 }
                 else
                 {

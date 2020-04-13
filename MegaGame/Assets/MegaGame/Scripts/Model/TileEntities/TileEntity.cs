@@ -12,7 +12,7 @@ namespace MegaGame
         protected GameBoard gameBoard;
         [SerializeField]
         protected string uid;
-
+        
         [SerializeField]
         protected int maxHealth = 10;
 
