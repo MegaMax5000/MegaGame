@@ -24,7 +24,7 @@ namespace MegaGame
         public void Init()
         {
             this.accessory = AccessoryFactory.createAccessory(AccessoryFactory.AccessoryType.Blaster, this);
-            //StartShooting(2);
+            StartShooting(2);
         }
 
         public void StartShooting(float interval) {

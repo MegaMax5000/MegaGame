@@ -109,7 +109,9 @@ namespace MegaGame
         {
             GameObject bulletGO = PhotonNetwork.Instantiate("shit", position, rotation);
             TurretEntity bb = bulletGO.GetComponent<TurretEntity>();
+            MyGameBoard.AddEntityToTile(0, 0, bb);
             bb.Init();
+            
         }
 
         private void SetupLocalPlayer(string name, int row, int col, Transform startingOrientationTransform)

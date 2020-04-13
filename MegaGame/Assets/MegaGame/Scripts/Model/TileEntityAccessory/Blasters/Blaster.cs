@@ -9,7 +9,9 @@ namespace MegaGame
         protected int baseDamage = 1;
         protected int shootRange = 12;
 
-        public Blaster(TileEntity parent) : base(parent) { }
+        public Blaster(TileEntity parent) : base(parent) {
+            this.parentEntity = parent;
+        }
 
         public int GetBaseDamage()
         {
@@ -24,7 +26,7 @@ namespace MegaGame
         // returns the entity which was shot (null if nothing was shot)
         public bool DoShoot()
         {
-            GameBoard board = this.parentEntity.GetBoard();
+            GameBoard board = GameManager.Instance.MyGameBoard;
             Vector2Int entityPosition = board.GetTileEntityPosition(this.parentEntity);
             Tile entityTile = board.GetTile(this.parentEntity);
             // If on left side, shoot right. Otherwise if on right side, shoot left
