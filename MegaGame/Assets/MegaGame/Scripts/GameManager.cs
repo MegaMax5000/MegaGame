@@ -22,7 +22,7 @@ namespace MegaGame
         public Transform Player1TempPos;
         public Transform Player2TempPos;
 
-        private PlayerTileEntity localPlayer;
+        public PlayerTileEntity LocalPlayer;
 
         ///Called by Unity when the application is closed.Tries to disconnect.
         protected void OnApplicationQuit() { PhotonNetwork.Disconnect(); }
@@ -78,7 +78,7 @@ namespace MegaGame
             Debug.LogFormat("Player {0} left the room and ruined it for everyone else.", other.NickName); // seen when other disconnects
 
             PhotonNetwork.LeaveRoom();
-            PhotonNetwork.Destroy(localPlayer.gameObject);
+            PhotonNetwork.Destroy(LocalPlayer.gameObject);
         }
 
         public override void OnMasterClientSwitched(Player newMasterClient)
@@ -87,13 +87,13 @@ namespace MegaGame
             Debug.Log("Player left the room and ruined it for everyone else."); // seen when other disconnects
 
             PhotonNetwork.LeaveRoom();
-            PhotonNetwork.Destroy(localPlayer.gameObject);
+            PhotonNetwork.Destroy(LocalPlayer.gameObject);
         }
 
         public void LeaveRoom()
         {
             PhotonNetwork.LeaveRoom();
-            PhotonNetwork.Destroy(localPlayer.gameObject);
+            PhotonNetwork.Destroy(LocalPlayer.gameObject);
         }
 
         public void SpawnStupidPhotonProjectile(string name, Vector3 position, Quaternion rotation, Vector3 direction, float speed, int damage)
@@ -121,7 +121,7 @@ namespace MegaGame
             playerGO.name = name;
             PlayerTileEntity pte = playerGO.GetComponent<PlayerTileEntity>();
             pte.SetBoard(MyGameBoard);
-            localPlayer = pte;
+            LocalPlayer = pte;
             pte.SetUid(Guid.NewGuid().ToString()); //random int guid
 
             //init player tile
