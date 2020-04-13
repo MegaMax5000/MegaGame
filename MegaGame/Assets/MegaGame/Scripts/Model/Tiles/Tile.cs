@@ -98,8 +98,9 @@ namespace MegaGame
 
         public virtual void DoTick()
         {
-            foreach (TileEntity te in tileEntities)
+            for (int i = 0; i < tileEntities.Count; i++)
             {
+                TileEntity te = tileEntities[i];
                 if (te != null)
                 {
                     te.transform.position = this.transform.position + entityOffset;
