@@ -128,5 +128,15 @@ namespace MegaGame
                 }
             }
         }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            BlasterBullet b = other.gameObject.GetComponent<BlasterBullet>();
+            if (b != null)
+            {
+                TakeDamage(b.Damage);
+                PhotonNetwork.Destroy(other.gameObject);
+            }
+        }
     }
 }

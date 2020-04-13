@@ -12,13 +12,6 @@ public class BlasterBullet : MonoBehaviour
 
     private Rigidbody myRB;
 
-    public BlasterBullet(Vector3 direction, float speed, int damage)
-    {
-        MoveDirection = direction;
-        MoveSpeed = speed;
-        Damage = damage;
-    }
-
     // Start is called before the first frame update
     void Start()
     {
