@@ -8,7 +8,7 @@ namespace MegaGame
     {
         TimedActionManager.ActionItem action = null;
 
-        public float FireRate = .5f;
+        public float FireRate = 5f;
         Accessory accessory;
         public TurretEntity(GameBoard gb, string name, int maxHealth) : base(gb, name, maxHealth, TileEntityType.Turret)
         {   

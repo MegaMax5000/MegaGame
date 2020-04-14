@@ -50,6 +50,7 @@ MonoBehaviour:
   uid: 6
   maxHealth: 6
   HealthText: {fileID: 1233791728472348565}
+  FireRate: 1.5
 --- !u!114 &5487856033794251791
 MonoBehaviour:
   m_ObjectHideFlags: 0

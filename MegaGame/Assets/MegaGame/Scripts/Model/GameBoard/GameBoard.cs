@@ -7,7 +7,7 @@ namespace MegaGame
 {
     public class GameBoard : MonoBehaviourPunCallbacks
     {
-        public float FPS = 30f; // Update at 30 fps 
+        public float FPS = 60f; 
         public int GameBoardHeight { get { return height; } }
         public int GameBoardWidth { get { return width;  } }
 
@@ -38,7 +38,7 @@ namespace MegaGame
                         TickAllTiles();
                     },
                     this,
-                    1/FPS
+                    1f/FPS
                 );
         }
 

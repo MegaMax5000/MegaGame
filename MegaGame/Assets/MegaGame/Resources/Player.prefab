@@ -71,7 +71,7 @@ MonoBehaviour:
   uid: 
   maxHealth: 10
   HealthText: {fileID: 3111034022776849383}
-  Cooldown_time: 0.05
+  MovementSpeed: 0.2
 --- !u!65 &749757227363369955
 BoxCollider:
   m_ObjectHideFlags: 0
