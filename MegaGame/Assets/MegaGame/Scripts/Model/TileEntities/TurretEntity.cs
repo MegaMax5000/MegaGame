@@ -7,18 +7,8 @@ namespace MegaGame
     public class TurretEntity : TileEntity
     {
         TimedActionManager.ActionItem action = null;
-        private class ShootAction : Action {
-            Accessory accessory;
-            public ShootAction(Accessory a) {
-                this.accessory = a;
-            }
-            public override void DoAction() {
-                if (Random.value > .4)
-                {
-                    accessory.DoAction();
-                }
-            }
-        }
+
+        public float FireRate = .5f;
         Accessory accessory;
         public TurretEntity(GameBoard gb, string name, int maxHealth) : base(gb, name, maxHealth, TileEntityType.Turret)
         {   
@@ -27,7 +17,7 @@ namespace MegaGame
         public void Init()
         {
             this.accessory = AccessoryFactory.createAccessory(AccessoryFactory.AccessoryType.Blaster, this);
-            StartShooting(.5f);
+            StartShooting(FireRate);
         }
 
         public void StartShooting(float interval) {
@@ -41,12 +31,20 @@ namespace MegaGame
             TimedActionManager
             .GetInstance()
             .RegisterAction(
-                new ShootAction(this.accessory), 
+               ()=>
+               {
+                   DoShoot();
+               }, 
                 this, 
                 interval
             );
         }
 
+
+        private void DoShoot()
+        {
+            this.accessory.DoAction();
+        }
         public void StopShooting() {
 
             if (action == null) {

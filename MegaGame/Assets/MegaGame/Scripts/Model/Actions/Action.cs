@@ -4,8 +4,5 @@ using UnityEngine;
 
 namespace MegaGame
 {
-    public abstract class Action 
-    {
-        public abstract void DoAction();
-    }
+    public delegate void Action();
 }

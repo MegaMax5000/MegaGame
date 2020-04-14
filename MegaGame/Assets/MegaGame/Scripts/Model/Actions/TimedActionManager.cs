@@ -58,5 +58,22 @@ namespace MegaGame {
                 }
             }
         }
+
+
+        public void UpdateActionFrequency(object client, ActionItem ai, float newTimeout)
+        {
+            if (client == null || ai == null || newTimeout < 0)
+            {
+                Debug.LogError("[TimedActionManager] Failed to update frequency");
+                return;
+            }
+            for (int i = 0; i < ActionItems[client].Count; ++i)
+            {
+                if (ActionItems[client][i].Equals(ai))
+                {
+                    ai.action.SetTimeout(newTimeout);
+                }
+            }
+        }
     }
 }

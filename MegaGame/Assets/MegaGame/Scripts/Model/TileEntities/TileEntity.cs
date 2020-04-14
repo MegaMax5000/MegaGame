@@ -73,6 +73,14 @@ namespace MegaGame
             this.gameBoard = gb;
             this.uid = System.Guid.NewGuid().ToString();
             this.MyTileEntityType = tileEntityType;
+
+            // Update health every .5 seconds
+            TimedActionManager.GetInstance().RegisterAction(
+                () =>
+                {
+                    DoTick();
+                }
+                , this, .5f);
         }
 
         // Start is called before the first frame update
@@ -80,12 +88,6 @@ namespace MegaGame
         {
             this.maxHealth = 10;
             this.Health = this.maxHealth;
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-            DoTick();
         }
 
         public virtual void DoTick()

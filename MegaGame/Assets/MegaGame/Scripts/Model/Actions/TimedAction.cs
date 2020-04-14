@@ -15,11 +15,18 @@ namespace MegaGame
             this.Action = action;
             this.Timeout = timeout;
         }
+
+        public void SetTimeout(float newTimeout)
+        {
+            Timeout = newTimeout;
+            LastTime = Time.time;
+        }
+
         public void DoTimedAction()
         {
             if (Time.time >=  LastTime + Timeout)
             {
-                Action.DoAction();
+                Action();
                 LastTime = Time.time;
             }
         }

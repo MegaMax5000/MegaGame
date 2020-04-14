@@ -7,6 +7,7 @@ namespace MegaGame
 {
     public class GameBoard : MonoBehaviourPunCallbacks
     {
+        public float FPS = 30f; // Update at 30 fps 
         public int GameBoardHeight { get { return height; } }
         public int GameBoardWidth { get { return width;  } }
 
@@ -29,8 +30,16 @@ namespace MegaGame
         void Awake()
         {
             boardArray = new Tile[height, width];
-
             InitTiles();
+
+            TimedActionManager.GetInstance().RegisterAction(
+                    () =>
+                    {
+                        TickAllTiles();
+                    },
+                    this,
+                    1/FPS
+                );
         }
 
         private void InitTiles()
@@ -257,7 +266,6 @@ namespace MegaGame
         void Update()
         {
             TimedActionManager.GetInstance().DoActions();
-            TickAllTiles();
         }
 
         private void TickAllTiles()
