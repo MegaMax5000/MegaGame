@@ -6,7 +6,7 @@ namespace MegaGame {
     public class TimedActionManager
     {
         private static TimedActionManager manager = new TimedActionManager();
-
+        private static float lag = 0;
         public static TimedActionManager GetInstance()
         {
             return manager;
@@ -22,6 +22,16 @@ namespace MegaGame {
                 this.client = c;
                 this.action = a;
             }
+        }
+
+        public static void SetLag(float lag)
+        {
+            TimedActionManager.lag = lag;
+        }
+
+        public static float GetLag()
+        {
+            return lag;
         }
 
         private Dictionary<object,List<ActionItem>> ActionItems = new Dictionary<object,List<ActionItem>>();

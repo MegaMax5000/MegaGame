@@ -24,7 +24,7 @@ namespace MegaGame
 
         public void DoTimedAction()
         {
-            if (Time.time >=  LastTime + Timeout)
+            if (Time.time >=  LastTime + Timeout + TimedActionManager.GetLag())
             {
                 Action();
                 LastTime = Time.time;
