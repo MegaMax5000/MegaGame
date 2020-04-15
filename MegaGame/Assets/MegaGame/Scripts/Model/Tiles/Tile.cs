@@ -27,6 +27,10 @@ namespace MegaGame
             this.side = side;
         }
 
+        public bool IsEmpty()
+        {
+            return tileEntities == null || tileEntities.Count == 0;
+        }
         // Start is called before the first frame update
         void Start()
         {

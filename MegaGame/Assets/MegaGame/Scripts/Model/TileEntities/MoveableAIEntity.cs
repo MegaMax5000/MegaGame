@@ -38,14 +38,36 @@ namespace MegaGame
                 {
                     ProbabilityUpdatePolicy();
 
-                    int idx = 0;
-                    if ( random.Next(0, 100) <= 79 )
+                    string s = "";
+                    for (int i = 0; i < directionWeights.Length; ++i)
                     {
-                        // lower range
-                        double upVal = directionWeights[DIRS.UP] * 100000;
-                        // upper range
-                        double downVal = upVal + directionWeights[DIRS.DOWN] * 100000;
+                        s += directionWeights[i] + " ";
+                    }
+                    double upVal = directionWeights[DIRS.UP] * 100000;
+                    double downVal = directionWeights[DIRS.DOWN] * 100000;
+                    double lVal = directionWeights[DIRS.LEFT] * 100000;
+                    double rVal = directionWeights[DIRS.RIGHT] * 100000;
 
+                    double lower = lVal + rVal;
+                    double upper = lower + downVal + upVal;
+
+                    int idx = 0;
+                    if ( (int)upper <= 0 || random.Next(0, (int)upper) <= lower )
+                    {
+                        lVal += rVal;
+                        // move up/down
+                        if ((int)lVal <= 0 || random.Next(0, (int)lVal) <= rVal)
+                        {
+                            idx = DIRS.RIGHT;
+                        }
+                        else
+                        {
+                            idx = DIRS.LEFT;
+                        }
+                    }
+                    else
+                    {
+                        downVal += upVal;
                         // move up/down
                         if (random.Next(0, (int)downVal) <= upVal)
                         {
@@ -56,32 +78,20 @@ namespace MegaGame
                             idx = DIRS.DOWN;
                         }
                     }
-                    else
-                    {
-                        Debug.Log("else");
-                        if (random.Next(0,2) == 0)
-                        {
-                            idx = DIRS.LEFT;
-                        }
-                        else
-                        {
-                            idx = DIRS.RIGHT;
-                        }
-                    }
 
                     switch (idx)
                     {
                         case DIRS.UP:
-                            GameManager.Instance.MyGameBoard.DoMoveTileEntity(this, TileEntityConstants.DirectionVectors.UP);
+                            GameManager.Instance.MyGameBoard.DoMoveTileEntity(this, TileEntityConstants.DirectionVectors.UP, false);
                             break;
                         case DIRS.DOWN:
-                            GameManager.Instance.MyGameBoard.DoMoveTileEntity(this, TileEntityConstants.DirectionVectors.DOWN);
+                            GameManager.Instance.MyGameBoard.DoMoveTileEntity(this, TileEntityConstants.DirectionVectors.DOWN, false);
                             break;
                         case DIRS.LEFT:
-                            GameManager.Instance.MyGameBoard.DoMoveTileEntity(this, TileEntityConstants.DirectionVectors.LEFT);
+                            GameManager.Instance.MyGameBoard.DoMoveTileEntity(this, TileEntityConstants.DirectionVectors.LEFT, false);
                             break;
                         case DIRS.RIGHT:
-                            GameManager.Instance.MyGameBoard.DoMoveTileEntity(this, TileEntityConstants.DirectionVectors.RIGHT);
+                            GameManager.Instance.MyGameBoard.DoMoveTileEntity(this, TileEntityConstants.DirectionVectors.RIGHT, false);
                             break;
                         default:
                             break;
@@ -119,6 +129,7 @@ namespace MegaGame
             GameBoard gb = GameManager.Instance.MyGameBoard;
             Vector2Int myPosition = gb.GetTileEntityPosition(this);
             Vector2Int target = FindClosestFoe();
+            Vector2Int ally = FindClosestAlly();
 
             if (target.Equals(myPosition))
             {
@@ -128,34 +139,57 @@ namespace MegaGame
             }
 
 
-            double t = (double)Math.Abs((target.x - myPosition.x))*(target.x - myPosition.x);
-            directionWeights[DIRS.UP] = 1 - sigmoid(t);
-            directionWeights[DIRS.DOWN] = sigmoid(t);
+            double upPenalty = sigmoid(Math.Abs((myPosition.x - target.x)) * (myPosition.x - target.x));
+            double downPenalty = 1 - upPenalty;
+            double leftPenalty = sigmoid(Math.Abs((myPosition.y - target.y)) * (myPosition.y - target.y));
+            double rightPenalty = 1 - leftPenalty;
 
-            directionWeights[DIRS.LEFT] = .5;
-            directionWeights[DIRS.RIGHT] = .5;
+            directionWeights[DIRS.UP] = upPenalty;
+            directionWeights[DIRS.DOWN] = downPenalty;
+            directionWeights[DIRS.LEFT] = leftPenalty;
+            directionWeights[DIRS.RIGHT] = rightPenalty;
 
-            // normalize
-            double sum = 0;
-            for (int i = 0; i < directionWeights.Length; ++i)
+            // Update weights based on ally distance
+            double downAward = sigmoid(Math.Abs((myPosition.x - ally.x)) * (myPosition.x - ally.x));
+            double upAward = 1 - downAward;
+            double rightAward = sigmoid(Math.Abs((myPosition.y - ally.y)) * (myPosition.y - ally.y));
+            double leftAward = 1 - rightAward;
+
+            directionWeights[DIRS.UP] += .33*upAward;
+            directionWeights[DIRS.DOWN] += .33*downAward;
+            directionWeights[DIRS.LEFT] += .33*leftAward;
+            directionWeights[DIRS.RIGHT] += .33*rightAward;
+            
+            /*if (!gb.IsOnBoard(TileEntityConstants.DirectionVectors.UP + myPosition) )
             {
-                sum += directionWeights[i];
+                directionWeights[DIRS.UP] = 0;
             }
-
-            for (int i = 0; i < directionWeights.Length; ++i)
+            if (!gb.IsOnBoard(TileEntityConstants.DirectionVectors.DOWN + myPosition))
             {
-                directionWeights[i] /= sum;
+                directionWeights[DIRS.DOWN] = 0;
             }
-
-            string f = "[";
-            for (int i = 0; i < 4; ++i)
+            if (!gb.IsOnBoard(TileEntityConstants.DirectionVectors.LEFT + myPosition))
             {
-                f += directionWeights[i] + ",";
+                directionWeights[DIRS.LEFT] = 0;
             }
-            Debug.Log(f + "]");
+            if (!gb.IsOnBoard(TileEntityConstants.DirectionVectors.RIGHT + myPosition))
+            {
+                directionWeights[DIRS.RIGHT] = 0;
+            }*/
+            normWeights();
         }
 
         private Vector2Int FindClosestFoe()
+        {
+            return FindClosestOnSide(false);
+        }
+
+        private Vector2Int FindClosestAlly()
+        {
+            return FindClosestOnSide(true);
+        }
+
+        private Vector2Int FindClosestOnSide(bool ally)
         {
             GameBoard gb = GameManager.Instance.MyGameBoard;
             Vector2Int myPosition = gb.GetTileEntityPosition(this);
@@ -172,9 +206,19 @@ namespace MegaGame
                 Vector2Int pos = gb.GetTileEntityPosition(tileEntities[i]);
                 float dist = Vector2Int.Distance(myPosition, pos);
                 
-                if (dist < closest && myTile.GetSide() != gb.GetTile(tileEntities[i]).GetSide())
+                if (tileEntities[i] == this)
                 {
-                    ret = pos;
+                    continue;
+                }
+                if (dist < closest)
+                {
+                    if (
+                        (ally && myTile.GetSide() == gb.GetTile(tileEntities[i]).GetSide())
+                        || (!ally && myTile.GetSide() != gb.GetTile(tileEntities[i]).GetSide())
+                        )
+                    {
+                        ret = pos;
+                    }
                 }
             }
 
@@ -182,10 +226,21 @@ namespace MegaGame
         }
 
 
+
         // map some value to the range 0,1
         private double sigmoid(double t)
         {
             return 1 / (1 + Math.Exp(-1 * t)); 
+        }
+
+        private void normWeights()
+        {
+            double s = directionWeights[0] + directionWeights[1] + directionWeights[2] + directionWeights[3];
+            directionWeights[DIRS.UP] /= s;
+            directionWeights[DIRS.DOWN] /= s;
+            directionWeights[DIRS.LEFT] /= s;
+            directionWeights[DIRS.RIGHT] /= s;
+
         }
     }
 }

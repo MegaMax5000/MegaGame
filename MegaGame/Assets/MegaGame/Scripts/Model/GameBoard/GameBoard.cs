@@ -205,18 +205,23 @@ namespace MegaGame
             return toReturn;
         }
 
-        public void DoMoveTileEntity(TileEntity tileEntity, Vector2Int direction)
+        public void DoMoveTileEntity(TileEntity tileEntity, Vector2Int direction, bool allowOverlap)
         {
             Vector2Int curPosition;
             if (positionDict.TryGetValue(tileEntity.GetUid(), out curPosition))
             {
-                Vector2Int newPosition = UpdatePosition(curPosition, direction);
+                Vector2Int newPosition = UpdatePosition(curPosition, direction, allowOverlap);
                 UpdateTileEntityPosition(tileEntity, curPosition, newPosition);
             }
             else
             {
                 Debug.Log("[GameBoard] Failed to move tileEntity... not in dictionary!");
             }
+        }
+
+        public void DoMoveTileEntity(TileEntity tileEntity, Vector2Int direction)
+        {
+            DoMoveTileEntity(tileEntity, direction, true);
         }
 
         public void DoDamageToTileEntity(TileEntity te, int damage)
@@ -237,7 +242,7 @@ namespace MegaGame
             }
             return true;
         }
-        private Vector2Int UpdatePosition(Vector2Int position, Vector2Int direction)
+        private Vector2Int UpdatePosition(Vector2Int position, Vector2Int direction, bool allowOverlap)
         {
             Tile curTile = GetTile(position); 
             Tile.SIDE side = curTile.GetSide();
@@ -246,7 +251,7 @@ namespace MegaGame
             newPosition += direction;
 
             // Make sure new position is still on the board
-            if (!IsOnBoard(newPosition))
+            if (!IsOnBoard(newPosition) || (!allowOverlap && !GetTile(newPosition).IsEmpty()))
             {
                 // not on board... do not update position
                 return position;

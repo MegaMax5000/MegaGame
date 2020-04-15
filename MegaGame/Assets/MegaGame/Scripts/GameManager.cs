@@ -42,7 +42,10 @@ namespace MegaGame
                     int initialRow = MyGameBoard.GameBoardHeight / 2 + (MyGameBoard.GameBoardHeight % 2 - 1);
                     int initialWidth = MyGameBoard.GameBoardWidth / 4 + ((MyGameBoard.GameBoardWidth / 2) % 2 - 1);
                     SetupLocalPlayer("Player1", initialRow, initialWidth, Player1TempPos);
-                    SpawnBasicTurret(new Vector3(0, 0), Quaternion.identity, new Vector3(0, 0), 0, 5);
+                    SpawnBasicTurret("tur1", new Vector3(0, 1), Quaternion.identity);
+                    SpawnBasicTurret("tur2", new Vector3(5, 11), Quaternion.identity);
+                    SpawnBasicTurret("tur3", new Vector3(5, 7), Quaternion.identity);
+
                 }
                 else
                 {
@@ -107,11 +110,12 @@ namespace MegaGame
             bb.Damage = damage;
         }
 
-        public void SpawnBasicTurret(Vector3 position, Quaternion rotation, Vector3 direction, float speed, int damage)
+        public void SpawnBasicTurret(string name, Vector3 position, Quaternion rotation)
         {
-            GameObject bulletGO = PhotonNetwork.Instantiate("shit", position, rotation);
+            GameObject bulletGO = PhotonNetwork.Instantiate(name, position, rotation);
             TurretEntity bb = bulletGO.GetComponent<TurretEntity>();
-            MyGameBoard.AddEntityToTile(1, 7, bb);
+            bb.SetUid(Guid.NewGuid().ToString());
+            MyGameBoard.AddEntityToTile((int)position.x, (int)position.y, bb);
             bb.Init();
             
         }
