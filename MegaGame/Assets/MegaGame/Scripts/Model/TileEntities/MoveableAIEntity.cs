@@ -10,7 +10,7 @@ namespace MegaGame
 {
     public class MoveableAIEntity : TileEntity
     {
-        System.Random random = new System.Random();
+        private static System.Random random = new System.Random();
         private static float SPEED = .4f;
         private static int numDirections = 4;
         private double[] directionWeights;
