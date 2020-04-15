@@ -42,7 +42,7 @@ namespace MegaGame
                     int initialRow = MyGameBoard.GameBoardHeight / 2 + (MyGameBoard.GameBoardHeight % 2 - 1);
                     int initialWidth = MyGameBoard.GameBoardWidth / 4 + ((MyGameBoard.GameBoardWidth / 2) % 2 - 1);
                     SetupLocalPlayer("Player1", initialRow, initialWidth, Player1TempPos);
-                    SpawnStupidShitPhotonProjectile(new Vector3(0, 0), Quaternion.identity, new Vector3(0, 0), 0, 5);
+                    SpawnBasicTurret(new Vector3(0, 0), Quaternion.identity, new Vector3(0, 0), 0, 5);
                 }
                 else
                 {
@@ -107,11 +107,11 @@ namespace MegaGame
             bb.Damage = damage;
         }
 
-        public void SpawnStupidShitPhotonProjectile(Vector3 position, Quaternion rotation, Vector3 direction, float speed, int damage)
+        public void SpawnBasicTurret(Vector3 position, Quaternion rotation, Vector3 direction, float speed, int damage)
         {
             GameObject bulletGO = PhotonNetwork.Instantiate("shit", position, rotation);
             TurretEntity bb = bulletGO.GetComponent<TurretEntity>();
-            MyGameBoard.AddEntityToTile(0, 0, bb);
+            MyGameBoard.AddEntityToTile(1, 7, bb);
             bb.Init();
             
         }

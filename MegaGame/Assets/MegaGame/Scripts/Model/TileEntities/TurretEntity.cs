@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace MegaGame
 { 
-    public class TurretEntity : TileEntity
+    public class TurretEntity :  MoveableAIEntity
     {
         TimedActionManager.ActionItem action = null;
 
@@ -18,6 +18,7 @@ namespace MegaGame
         {
             this.accessory = AccessoryFactory.createAccessory(AccessoryFactory.AccessoryType.Blaster, this);
             StartShooting(FireRate);
+            StartAI();
         }
 
         public void StartShooting(float interval) {
