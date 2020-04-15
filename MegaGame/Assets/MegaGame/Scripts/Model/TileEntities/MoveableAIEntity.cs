@@ -141,8 +141,8 @@ namespace MegaGame
 
             double upPenalty = sigmoid(Math.Abs((myPosition.x - target.x)) * (myPosition.x - target.x));
             double downPenalty = 1 - upPenalty;
-            double leftPenalty = sigmoid(Math.Abs((myPosition.y - target.y)) * (myPosition.y - target.y));
-            double rightPenalty = 1 - leftPenalty;
+            double leftPenalty = (upPenalty + downPenalty) / 2; ;//sigmoid(Math.Abs((myPosition.y - target.y)) * (myPosition.y - target.y));
+            double rightPenalty = (upPenalty + downPenalty) / 2; ; //1 - leftPenalty;
 
             directionWeights[DIRS.UP] = upPenalty;
             directionWeights[DIRS.DOWN] = downPenalty;
@@ -152,13 +152,13 @@ namespace MegaGame
             // Update weights based on ally distance
             double downAward = sigmoid(Math.Abs((myPosition.x - ally.x)) * (myPosition.x - ally.x));
             double upAward = 1 - downAward;
-            double rightAward = sigmoid(Math.Abs((myPosition.y - ally.y)) * (myPosition.y - ally.y));
-            double leftAward = 1 - rightAward;
+            double rightAward = (downAward + upAward) / 2;//sigmoid(Math.Abs((myPosition.y - ally.y)) * (myPosition.y - ally.y));
+            double leftAward = (downAward + upAward) / 2; //1 - rightAward;
 
-            directionWeights[DIRS.UP] += .33*upAward;
-            directionWeights[DIRS.DOWN] += .33*downAward;
-            directionWeights[DIRS.LEFT] += .33*leftAward;
-            directionWeights[DIRS.RIGHT] += .33*rightAward;
+            directionWeights[DIRS.UP] += upAward;
+            directionWeights[DIRS.DOWN] += downAward;
+            directionWeights[DIRS.LEFT] += leftAward;
+            directionWeights[DIRS.RIGHT] += rightAward;
             
             /*if (!gb.IsOnBoard(TileEntityConstants.DirectionVectors.UP + myPosition) )
             {
