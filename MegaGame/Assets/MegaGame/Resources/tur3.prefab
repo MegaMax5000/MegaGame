@@ -10,7 +10,12 @@ PrefabInstance:
     - target: {fileID: 5132461330465480879, guid: 1ab61e0e5dd45a749882eb44a96a28e7,
         type: 3}
       propertyPath: m_Name
-      value: shit
+      value: tur3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3753332433023392323, guid: 1ab61e0e5dd45a749882eb44a96a28e7,
+        type: 3}
+      propertyPath: maxHealth
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 76248922202950890, guid: 1ab61e0e5dd45a749882eb44a96a28e7,
         type: 3}
@@ -66,11 +71,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3753332433023392323, guid: 1ab61e0e5dd45a749882eb44a96a28e7,
-        type: 3}
-      propertyPath: maxHealth
-      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 339315830591647852, guid: 1ab61e0e5dd45a749882eb44a96a28e7,
         type: 3}

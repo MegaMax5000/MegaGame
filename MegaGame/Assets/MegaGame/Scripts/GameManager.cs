@@ -116,7 +116,7 @@ namespace MegaGame
             TurretEntity bb = bulletGO.GetComponent<TurretEntity>();
             bb.SetUid(Guid.NewGuid().ToString());
             MyGameBoard.AddEntityToTile((int)position.x, (int)position.y, bb);
-            bb.Init();
+            bb.Initialize();
             
         }
 
@@ -137,6 +137,8 @@ namespace MegaGame
             {
                 this.MyGameBoard.AddEntityToTile(row, col, pte);
             }
+
+            pte.Initialize();
         }
 
         private void LoadArena()

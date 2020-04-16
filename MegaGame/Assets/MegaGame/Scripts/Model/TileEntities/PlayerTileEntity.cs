@@ -34,7 +34,7 @@ namespace MegaGame
             base.DoTick();
         }
 
-        void Start()
+        public void Initialize()
         {
             blaster = new Blaster(this);
             this.maxHealth = 10;
@@ -43,7 +43,7 @@ namespace MegaGame
             TimedActionManager.GetInstance().RegisterAction(
                 () =>
                 {
-                    
+
                     if (last_time + MovementSpeed <= Time.time)
                     {
                         // Holding key down
@@ -61,6 +61,10 @@ namespace MegaGame
                 }
                 , this, MovementPollRate
                 );
+        }
+        void Start()
+        {
+           
         }
 
         private float movementCooldownTimer;
